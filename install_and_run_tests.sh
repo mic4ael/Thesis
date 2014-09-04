@@ -2,5 +2,5 @@
 
 pip install . --no-deps --ignore-installed;
 cd tests;
-nosetests-3.3 --nocapture;
+nosetests-3.2 --nocapture;
 cd ..;

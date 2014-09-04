@@ -1,0 +1,2 @@
+- do poprawnego działania numpy wymagana jest biblioteka PIL / Pillow
+- do poprawnego wczytywania plików jpeg należy zainstalować libjpeg

@@ -6,5 +6,10 @@ setup(
     packages=find_packages('src'),
     test_suite='tests',
     package_dir={'': 'src'},
-    install_requires=['nose', 'mock']
+    install_requires=[
+        'nose', 
+        'mock', 
+        'Pillow',
+        'scipy',
+    ]
 )
