@@ -17,24 +17,30 @@ def generate_copy_filename(file_name):
     )
 
 
+def translate_image(image):
+    pass
+
+
 def rotate_image(image, angle):
+    def validate_size(val, max_value):
+        if val < 0:
+            return 0
+        if val >= max_value:
+            return max_value - 1
+        return val
+
+    if angle == 0 or angle == 360 or angle == -360:
+        return image
+    angle = math.radians(angle)
     width, height = get_image_size(image)
-    center_x, center_y = width // 2, height // 2
-    rotated_image = np.zeros((height, width, 3), dtype=image.dtype)
+    cent_x, cent_y = width // 2, height // 2
+    rotated_image = np.zeros((width, height, 3), dtype=image.dtype)
     for y in range(height):
         for x in range(width):
             pixel = image[y][x]
-            dst_x = (math.cos(angle) * (x - center_x)) + (math.sin(angle) * (y - center_y)) + center_x
-            dst_y = (math.sin(angle) * (x - center_x)) + (math.cos(angle) * (y - center_y)) + center_y
-            if dst_x < 0:
-                dst_x = 0
-            if dst_x > width:
-                dst_x = width - 1
-            if dst_y < 0:
-                dst_y = 0
-            if dst_y > height:
-                dst_y = height - 1
-            rotated_image[dst_y][dst_x] = pixel
+            dest_x = validate_size((x - cent_x) * math.cos(angle) - (y - cent_y) * math.sin(angle) + cent_y, height)
+            dest_y = validate_size((x - cent_x) * math.sin(angle) + (y - cent_y) * math.cos(angle) + cent_x, width)
+            rotated_image[dest_y][dest_x] = pixel
     return rotated_image
 
 

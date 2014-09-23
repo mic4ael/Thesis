@@ -18,6 +18,10 @@ class Image(object):
     def rotate(self, angle):
         self._image_arr = rotate_image(self._image_arr, angle)
 
+    def crop(self, size_to_crop):
+        # TODO
+        pass
+
     def save(self, file_path=None):
         file_path_to_save = file_path or self.file_path
         imsave(file_path_to_save, self._image_arr)

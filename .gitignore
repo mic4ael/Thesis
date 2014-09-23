@@ -2,3 +2,4 @@
 .idea
 env/
 build/
+tests/images/m_*
