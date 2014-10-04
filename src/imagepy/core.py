@@ -3,6 +3,8 @@ from scipy.misc import imsave
 
 from .utils import nearest_neighbours_scale, rotate_image, get_image_size
 
+from imagepy.exceptions import WrongArgumentType
+
 
 class Image(object):
     def __init__(self, file_path):
@@ -19,8 +21,9 @@ class Image(object):
         self._image_arr = rotate_image(self._image_arr, angle)
 
     def thumbnail(self, size):
-        if isinstance(size, (tuple, list)) and len(size) < 2:
-            return
+        if (isinstance(size, (tuple, list)) and len(size) != 2) \
+                or (not isinstance(size, (tuple, list))):
+            raise WrongArgumentType('Argument must be iterable and its size must be equal 2')
         width, height = size
         if width < self.width and height < self.width:
             self.width, self.height = size

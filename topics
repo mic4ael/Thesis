@@ -1,9 +1,9 @@
 Proponowane funkcjonalności:
 - moduł do wczytywania plików graficznych i operowania na nich (np. rotacja, skalowanie) (DONE)
+- tworzenie miniatur - (DONE)
 - kopiowanie obrazów, tworzenie nowych obrazów - (TODAY)
 - tworzenie filtrów
 - aplikowanie filtrów (domyślnych lub zdefiniowanych przez użytkownika)
-- tworzenie miniatur - (DONE)
 - moduł do rysowania prostych figur, mógłby zostać wzbogacony o tworzenie animacji
 - tworzenie histogramu dla danego obrazu
 - odszumowanie i wyostrzanie

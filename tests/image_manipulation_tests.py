@@ -1,4 +1,7 @@
 from imagepy import image_read
+from imagepy.exceptions import WrongArgumentType
+
+from nose.tools import raises
 
 
 def decrease_size_test():
@@ -24,3 +27,28 @@ def image_rotate_test():
         image = image_read(file_name)
         image.rotate(angle)
         image.save('images/m_sunflower_rotated_{angle}.jpg'.format(angle=angle))
+
+
+def thumbnail_test():
+    file_name = 'images/sunflower.jpg'
+    image = image_read(file_name)
+    image.thumbnail((120, 120))
+    image.save('images/m_sunflower_thumbnail.jpg')
+
+@raises(WrongArgumentType)
+def thumbnail_wrong_argument_int_test():
+    file_name = 'images/sunflower.jpg'
+    image = image_read(file_name)
+    image.thumbnail(5)
+
+@raises(WrongArgumentType)
+def thumbnail_wrong_argument_too_short_test():
+    file_name = 'images/sunflower.jpg'
+    image = image_read(file_name)
+    image.thumbnail((1,))
+
+@raises(WrongArgumentType)
+def thumbnail_wrong_argument_too_long_test():
+    file_name = 'images/sunflower.jpg'
+    image = image_read(file_name)
+    image.thumbnail((1, 2, 3))
