@@ -18,6 +18,14 @@ class Image(object):
     def rotate(self, angle):
         self._image_arr = rotate_image(self._image_arr, angle)
 
+    def thumbnail(self, size):
+        if isinstance(size, (tuple, list)) and len(size) < 2:
+            return
+        width, height = size
+        if width < self.width and height < self.width:
+            self.width, self.height = size
+            self._image_arr = nearest_neighbours_scale(self._image_arr, size)
+
     def crop(self, size_to_crop):
         # TODO
         pass
@@ -25,6 +33,18 @@ class Image(object):
     def save(self, file_path=None):
         file_path_to_save = file_path or self.file_path
         imsave(file_path_to_save, self._image_arr)
+
+    @classmethod
+    def from_array(cls, image_arr):
+        pass
+
+    @classmethod
+    def new(cls, size):
+        pass
+
+    @classmethod
+    def copy(cls, image):
+        pass
 
     @property
     def size(self):
