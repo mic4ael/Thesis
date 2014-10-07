@@ -1,4 +1,4 @@
-from scipy import ndimage
+from scipy import ndimage, ndarray, zeros
 from scipy.misc import imsave
 
 from .utils import nearest_neighbours_scale, rotate_image, get_image_size
@@ -7,11 +7,23 @@ from imagepy.exceptions import WrongArgumentType
 
 
 class Image(object):
-    def __init__(self, file_path):
-        self.file_path = file_path
-        self._image_arr = ndimage.imread(file_path)
+    def __init__(self, file_path=None, file_array=None):
+        self.file_path = None
+        self._image_arr = None
+        if file_path:
+            self.file_path = file_path
+            self._image_arr = ndimage.imread(file_path)
+
+        if file_array is not None:
+            if isinstance(file_array, ndarray) and len(file_array.shape) == 3\
+                    and file_array.shape[2] == 3:
+                self._image_arr = file_array
+            else:
+                raise WrongArgumentType('File array if provided must be of ndarray type')
+
         # ndimage.shape returns tuple where first element is height, then width
-        self.width, self.height = get_image_size(self._image_arr)
+        if self._image_arr is not None:
+            self.width, self.height = get_image_size(self._image_arr)
 
     def resize(self, size):
         self._image_arr = nearest_neighbours_scale(self._image_arr, size)
@@ -29,25 +41,23 @@ class Image(object):
             self.width, self.height = size
             self._image_arr = nearest_neighbours_scale(self._image_arr, size)
 
-    def crop(self, size_to_crop):
-        # TODO
-        pass
-
     def save(self, file_path=None):
         file_path_to_save = file_path or self.file_path
         imsave(file_path_to_save, self._image_arr)
 
     @classmethod
-    def from_array(cls, image_arr):
-        pass
-
-    @classmethod
     def new(cls, size):
-        pass
+        def check_arguments(f_args):
+            if any([True for arg in f_args if arg <= 0]):
+                raise WrongArgumentType('One of provided arguments is negative!')
+
+        check_arguments(size)
+        img = zeros(size[::-1] + (3, ))
+        return Image(file_array=img)
 
     @classmethod
-    def copy(cls, image):
-        pass
+    def copy(cls, image_arr):
+        return Image(file_array=image_arr)
 
     @property
     def size(self):
