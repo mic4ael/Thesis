@@ -1,10 +1,11 @@
 from imagepy import image_read_from_file, image_read_from_array, Image
 from imagepy.exceptions import FileNotFoundException, WrongArgumentType
-from imagepy.utils import generate_copy_filename
+from imagepy.utils import generate_copy_filename, median
 
 from nose.tools import raises, assert_raises, assert_true
 
 from scipy import ndarray
+
 
 def file_name_copy_test():
     file_name = 'test.jpg'
@@ -63,3 +64,14 @@ def image_new_with_exception_test():
     for arg in f_args:
         with assert_raises(WrongArgumentType):
             Image.new(arg)
+
+
+def median_test():
+    data = {
+        2: [1, 3, 4, 2, 1],
+        3: [3, 2, 3, 4, 5],
+        4: [2, 2, 4, 4, 4, 6]
+    }
+
+    for key, value in data.items():
+        assert(key == median(value))

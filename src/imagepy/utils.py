@@ -1,5 +1,8 @@
 import numpy as np
 import math
+
+from scipy import ndarray
+
 from .exceptions import WrongArgumentType
 
 
@@ -64,3 +67,18 @@ def nearest_neighbours_scale(image, dst_size):
             result[y][x] = image[py][px]
 
     return result
+
+
+def check_image(image):
+    return isinstance(image, ndarray) and len(image.shape) == 3\
+           and image.shape[2] == 3
+
+
+def median(arg):
+    if isinstance(arg, (list, set)):
+        sorted_arg = sorted(arg)
+        arg_len = len(sorted_arg)
+        if arg_len % 2 == 0:
+            return (sorted_arg[arg_len // 2] + sorted_arg[(arg_len // 2) + 1]) / 2
+        else:
+            return sorted_arg[arg_len // 2]
