@@ -1,8 +1,8 @@
 from scipy import ndimage, zeros
 from scipy.misc import imsave
 
-from .utils import nearest_neighbours_scale, rotate_image, get_image_size, check_image
-from .filters import median_filter
+from .utils import nearest_neighbours_scale, rotate_image, get_image_size, check_is_image
+from .filters import average_filter
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -16,7 +16,7 @@ class Image(object):
             self._image_arr = ndimage.imread(file_path)
 
         if file_array is not None:
-            if check_image(file_array):
+            if check_is_image(file_array):
                 self._image_arr = file_array
             else:
                 raise WrongArgumentType('File array if provided must be of ndarray type')
@@ -24,7 +24,6 @@ class Image(object):
         # ndimage.shape returns tuple where first element is height, then width
         if self._image_arr is not None:
             self.width, self.height = get_image_size(self._image_arr)
-
 
     def resize(self, size):
         self._image_arr = nearest_neighbours_scale(self._image_arr, size)
@@ -42,8 +41,8 @@ class Image(object):
             self.width, self.height = size
             self._image_arr = nearest_neighbours_scale(self._image_arr, size)
 
-    def median_filter(self):
-        self._image_arr = median_filter(self._image_arr)
+    def apply_filter(self, filter_cls):
+        self._image_arr = filter_cls.apply_filter(self._image_arr)
 
     def save(self, file_path=None):
         file_path_to_save = file_path or self.file_path

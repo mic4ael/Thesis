@@ -2,7 +2,7 @@ from imagepy import image_read_from_file, image_read_from_array, Image
 from imagepy.exceptions import FileNotFoundException, WrongArgumentType
 from imagepy.utils import generate_copy_filename, median
 
-from nose.tools import raises, assert_raises, assert_true
+from nose.tools import raises, assert_raises
 
 from scipy import ndarray
 

@@ -69,9 +69,9 @@ def nearest_neighbours_scale(image, dst_size):
     return result
 
 
-def check_image(image):
+def check_is_image(image):
     return isinstance(image, ndarray) and len(image.shape) == 3\
-           and image.shape[2] == 3
+        and image.shape[2] == 3
 
 
 def median(arg):

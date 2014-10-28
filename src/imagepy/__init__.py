@@ -1,5 +1,6 @@
 from .core import Image
 from .exceptions import FileNotFoundException
+
 from os.path import exists
 
 
