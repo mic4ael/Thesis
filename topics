@@ -1,14 +1,16 @@
-Proponowane funkcjonalności:
+DONE:
 - moduł do wczytywania plików graficznych i operowania na nich (np. rotacja, skalowanie) (DONE)
 - tworzenie miniatur - (DONE)
 - kopiowanie obrazów, tworzenie nowych obrazów - (DONE)
 - tworzenie filtrów (DONE)
 - aplikowanie filtrów (DONE)
+- rozbijanie na kanały RGB (DONE)
+- odbijanie obrazu (DONE)
+
+TODO:
 - moduł do rysowania prostych figur, mógłby zostać wzbogacony o tworzenie animacji
-- tworzenie histogramu dla danego obrazu
 - odszumowanie i wyostrzanie
 - prosta kompresja grafiki
-
 - filtracja przestrzenna (uśredniająca, wyostrzająca, dowolnym filtrem)
 - filtracja nieliniowa (min, max, mediana)
 - poprawa kontrastu (rozciąganie i wyrównywanie histogramu)
@@ -16,5 +18,3 @@ Proponowane funkcjonalności:
 - wyświetlanie histogramu
 - operacje punktowe (np. log, e^x)
 - zaszumianie szumem Gaussa i impulsowym o zadanych parametrach, konwersja do skali szarości
-- rozbijanie na kanały RGB (DONE)
-- odbijanie obrazu (DONE)

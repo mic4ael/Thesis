@@ -75,3 +75,10 @@ def rgb_split_test():
     image_read_from_array(r).save('images/m_lena_r.jpg')
     image_read_from_array(g).save('images/m_lena_g.jpg')
     image_read_from_array(b).save('images/m_lena_b.jpg')
+
+
+def invert_image_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.invert()
+    image.save('images/m_lena_inverted.jpg')

@@ -4,7 +4,7 @@ from scipy.ndimage.measurements import histogram
 
 from .utils import nearest_neighbours_scale, rotate_image, \
     get_image_size, check_is_image, vertical_reflection, \
-    horizontal_reflection, rgb_split
+    horizontal_reflection, rgb_split, invert_image
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -66,6 +66,9 @@ class Image(object):
 
     def histogram(self):
         return histogram(self._image_arr, 0, 1, 50)
+
+    def invert(self):
+        invert_image(self._image_arr)
 
     @classmethod
     def new(cls, size):
