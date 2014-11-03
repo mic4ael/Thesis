@@ -1,8 +1,10 @@
+from imagepy.utils import horizontal_reflection
 from scipy import ndimage, zeros
 from scipy.misc import imsave
 
-from .utils import nearest_neighbours_scale, rotate_image, get_image_size, check_is_image
-from .filters import average_filter
+from .utils import nearest_neighbours_scale, rotate_image, \
+                   get_image_size, check_is_image, vertical_reflection, \
+                   horizontal_reflection
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -47,6 +49,12 @@ class Image(object):
     def save(self, file_path=None):
         file_path_to_save = file_path or self.file_path
         imsave(file_path_to_save, self._image_arr)
+
+    def horizontal_reflection(self):
+        self._image_arr = horizontal_reflection(self._image_arr)
+
+    def vertical_reflection(self):
+        self._image_arr = vertical_reflection(self._image_arr)
 
     @classmethod
     def new(cls, size):

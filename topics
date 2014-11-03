@@ -17,4 +17,4 @@ Proponowane funkcjonalności:
 - operacje punktowe (np. log, e^x)
 - zaszumianie szumem Gaussa i impulsowym o zadanych parametrach, konwersja do skali szarości
 - rozbijanie na kanały RGB
-- odbijanie obrazu
+- odbijanie obrazu (DONE)

@@ -52,3 +52,17 @@ def thumbnail_wrong_argument_too_long_test():
     file_name = 'images/sunflower.jpg'
     image = image_read_from_file(file_name)
     image.thumbnail((1, 2, 3))
+
+
+def vertical_reflection_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.vertical_reflection()
+    image.save('images/m_lena_vertical_reflection.jpg')
+
+
+def horizontal_reflection_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.horizontal_reflection()
+    image.save('images/m_lena_horizontal_reflection.jpg')

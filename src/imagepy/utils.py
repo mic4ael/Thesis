@@ -82,3 +82,25 @@ def median(arg):
             return (sorted_arg[arg_len // 2] + sorted_arg[(arg_len // 2) + 1]) / 2
         else:
             return sorted_arg[arg_len // 2]
+
+
+def vertical_reflection(image):
+    width, height = get_image_size(image)
+    new_image = np.zeros((height, width, 3), dtype=image.dtype)
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            new_image[y][width - x - 1] = pixel
+
+    return new_image
+
+
+def horizontal_reflection(image):
+    width, height = get_image_size(image)
+    new_image = np.zeros((height, width, 3), dtype=image.dtype)
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            new_image[height - y - 1][x] = pixel
+
+    return new_image
