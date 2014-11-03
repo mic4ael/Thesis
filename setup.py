@@ -11,5 +11,6 @@ setup(
         'mock', 
         'Pillow',
         'scipy',
+        'matplotlib',
     ]
 )

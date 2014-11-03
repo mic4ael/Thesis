@@ -104,3 +104,18 @@ def horizontal_reflection(image):
             new_image[height - y - 1][x] = pixel
 
     return new_image
+
+
+def rgb_split(image):
+    width, height = get_image_size(image)
+    r = np.zeros((height, width, 3), dtype=image.dtype)
+    g = np.zeros((height, width, 3), dtype=image.dtype)
+    b = np.zeros((height, width, 3), dtype=image.dtype)
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            r[y][x] = pixel[0]
+            g[y][x] = pixel[1]
+            b[y][x] = pixel[2]
+
+    return r, g, b

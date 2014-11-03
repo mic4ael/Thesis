@@ -1,10 +1,10 @@
-from imagepy.utils import horizontal_reflection
 from scipy import ndimage, zeros
 from scipy.misc import imsave
+from scipy.ndimage.measurements import histogram
 
 from .utils import nearest_neighbours_scale, rotate_image, \
-                   get_image_size, check_is_image, vertical_reflection, \
-                   horizontal_reflection
+    get_image_size, check_is_image, vertical_reflection, \
+    horizontal_reflection, rgb_split
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -13,6 +13,7 @@ class Image(object):
     def __init__(self, file_path=None, file_array=None):
         self.file_path = None
         self._image_arr = None
+
         if file_path:
             self.file_path = file_path
             self._image_arr = ndimage.imread(file_path)
@@ -23,6 +24,7 @@ class Image(object):
             else:
                 raise WrongArgumentType('File array if provided must be of ndarray type')
 
+        self.r, self.g, self.b = rgb_split(self._image_arr)
         # ndimage.shape returns tuple where first element is height, then width
         if self._image_arr is not None:
             self.width, self.height = get_image_size(self._image_arr)
@@ -56,6 +58,15 @@ class Image(object):
     def vertical_reflection(self):
         self._image_arr = vertical_reflection(self._image_arr)
 
+    def get_pixel_at(self, x, y):
+        if x < 0 or x >= self.width or y < 0 or y >= self.height:
+            raise Exception
+
+        return self._image_arr[y][x]
+
+    def histogram(self):
+        return histogram(self._image_arr, 0, 1, 50)
+
     @classmethod
     def new(cls, size):
         def check_arguments(f_args):
@@ -73,3 +84,7 @@ class Image(object):
     @property
     def size(self):
         return self.width, self.height
+
+    @property
+    def rgb_channels(self):
+        return self.r, self.g, self.b

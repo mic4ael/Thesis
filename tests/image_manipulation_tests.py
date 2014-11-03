@@ -1,4 +1,4 @@
-from imagepy import image_read_from_file
+from imagepy import image_read_from_file, image_read_from_array
 from imagepy.exceptions import WrongArgumentType
 
 from nose.tools import raises
@@ -66,3 +66,12 @@ def horizontal_reflection_test():
     image = image_read_from_file(file_name)
     image.horizontal_reflection()
     image.save('images/m_lena_horizontal_reflection.jpg')
+
+
+def rgb_split_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    r, g, b = image.rgb_channels
+    image_read_from_array(r).save('images/m_lena_r.jpg')
+    image_read_from_array(g).save('images/m_lena_g.jpg')
+    image_read_from_array(b).save('images/m_lena_b.jpg')
