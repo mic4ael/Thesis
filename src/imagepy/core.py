@@ -4,7 +4,8 @@ from scipy.ndimage.measurements import histogram
 
 from .utils import nearest_neighbours_scale, rotate_image, \
     get_image_size, check_is_image, vertical_reflection, \
-    horizontal_reflection, rgb_split, invert_image
+    horizontal_reflection, rgb_split, invert_image, image_gray_scale,\
+    image_thresholding
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -69,6 +70,21 @@ class Image(object):
 
     def invert(self):
         invert_image(self._image_arr)
+
+    def gray_scale(self):
+        image_gray_scale(self._image_arr)
+
+    def point_operation(self, func):
+        image_gray_scale(self._image_arr)
+        for y in range(self.height):
+            for x in range(self.width):
+                pixel = self._image_arr[y][x]
+                new_val = func(pixel[0])
+                self._image_arr[y][x] = [new_val for i in range(3)]
+
+    def threshold(self, threshold):
+        image_gray_scale(self._image_arr)
+        image_thresholding(self._image_arr, threshold)
 
     @classmethod
     def new(cls, size):

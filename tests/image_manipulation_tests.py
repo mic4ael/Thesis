@@ -82,3 +82,27 @@ def invert_image_test():
     image = image_read_from_file(file_name)
     image.invert()
     image.save('images/m_lena_inverted.jpg')
+
+
+def gray_scale_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.gray_scale()
+    image.save('images/m_lena_gray_scale.jpg')
+
+
+def point_operation_test():
+    from math import log
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.point_operation(lambda x: log(x))
+    image.save('images/m_lena_log_point.jpg')
+    image = image_read_from_file(file_name)
+    image.point_operation(lambda x: x + 10)
+    image.save('images/m_lena_plus_point.jpg')
+
+def threshold_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.threshold(114)
+    image.save('images/m_lena_threshold.jpg')

@@ -6,9 +6,10 @@ DONE:
 - aplikowanie filtrów (DONE)
 - rozbijanie na kanały RGB (DONE)
 - odbijanie obrazu (DONE)
+- konwersja do skali szarości (DONE)
+- operacje punktowe (np. log, e^x) (DONE)
 
 TODO:
-- moduł do rysowania prostych figur, mógłby zostać wzbogacony o tworzenie animacji
 - odszumowanie i wyostrzanie
 - prosta kompresja grafiki
 - filtracja przestrzenna (uśredniająca, wyostrzająca, dowolnym filtrem)
@@ -16,5 +17,5 @@ TODO:
 - poprawa kontrastu (rozciąganie i wyrównywanie histogramu)
 - binaryzacja (globalna z zadanym progiem + automatyczny dobór progu np. Otsu/Isodata)
 - wyświetlanie histogramu
-- operacje punktowe (np. log, e^x)
-- zaszumianie szumem Gaussa i impulsowym o zadanych parametrach, konwersja do skali szarości
+
+- zaszumianie szumem Gaussa i impulsowym o zadanych parametrach

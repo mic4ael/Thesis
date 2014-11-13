@@ -127,3 +127,20 @@ def invert_image(image):
         for x in range(width):
             pixel = image[y][x]
             image[y][x] = 1 - pixel[0], 1 - pixel[1], 1 - pixel[2]
+
+
+def image_gray_scale(image):
+    width, height = get_image_size(image)
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            image[y][x] = [sum(pixel) / 3 for _ in range(3)]
+
+
+def image_thresholding(image, threshold):
+    width, height = get_image_size(image)
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            new_val = 255 if pixel[0] >= threshold else 0
+            image[y][x] = [new_val for _ in range(3)]
