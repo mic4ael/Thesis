@@ -75,13 +75,15 @@ def check_is_image(image):
 
 
 def median(arg):
-    if isinstance(arg, (list, set)):
+    if isinstance(arg, (list, tuple)):
         sorted_arg = sorted(arg)
         arg_len = len(sorted_arg)
         if arg_len % 2 == 0:
             return (sorted_arg[arg_len // 2] + sorted_arg[(arg_len // 2) + 1]) / 2
         else:
             return sorted_arg[arg_len // 2]
+
+    raise WrongArgumentType('Argument must be of list or tuple type')
 
 
 def vertical_reflection(image):
