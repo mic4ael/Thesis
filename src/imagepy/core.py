@@ -5,7 +5,7 @@ from scipy.ndimage.measurements import histogram
 from .utils import nearest_neighbours_scale, rotate_image, \
     get_image_size, check_is_image, vertical_reflection, \
     horizontal_reflection, rgb_split, invert_image, image_gray_scale,\
-    image_thresholding
+    image_thresholding, add_gaussian_noise, salt_and_pepper_noise
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -73,6 +73,13 @@ class Image(object):
 
     def gray_scale(self):
         image_gray_scale(self._image_arr)
+
+    def gaussian_noise(self, mean=6, variance=36):
+        self._image_arr = add_gaussian_noise(self._image_arr, mean, variance)
+
+    def salt_and_pepper_noise(self, min_v=0, max_v=255):
+        image_gray_scale(self._image_arr)
+        salt_and_pepper_noise(self._image_arr, min_v, max_v)
 
     def point_operation(self, func):
         image_gray_scale(self._image_arr)

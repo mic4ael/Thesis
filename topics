@@ -12,10 +12,11 @@ DONE:
 - filtracja nieliniowa (min, max, mediana) (DONE)
 
 TODO:
+- odszumowanie i wyostrzanie
+- zaszumianie szumem Gaussa i impulsowym o zadanych parametrach
+
 - poprawa kontrastu (rozciąganie i wyrównywanie histogramu)
 - binaryzacja (globalna z zadanym progiem + automatyczny dobór progu np. Otsu/Isodata)
 
-- odszumowanie i wyostrzanie
 - prosta kompresja grafiki
 - wyświetlanie histogramu
-- zaszumianie szumem Gaussa i impulsowym o zadanych parametrach

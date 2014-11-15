@@ -107,3 +107,17 @@ def threshold_test():
     image = image_read_from_file(file_name)
     image.threshold(114)
     image.save('images/m_lena_threshold.jpg')
+
+
+def gaussian_noise_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.gaussian_noise()
+    image.save('images/m_lena_gaussian_noise.jpg')
+
+
+def salt_and_pepper_noise_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.salt_and_pepper_noise(0, 10)
+    image.save('images/m_lena_sal_and_pepper_noise.jpg')

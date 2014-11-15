@@ -157,3 +157,21 @@ def check_image_pixel_values(pixel):
             ret[index] = 255
 
     return ret
+
+
+def add_gaussian_noise(image, mean, variance):
+    noise = np.random.normal(mean, variance, image.shape)
+    return image + noise
+
+
+def salt_and_pepper_noise(image, min_v, max_v):
+    width, height = get_image_size(image)
+    random_numbers = np.random.randint(min_v, max_v, (height, width, 1))
+    for y in range(height):
+        for x in range(width):
+            r = random_numbers[y][x]
+            if r == min_v:
+                image[y][x] = [0, 0, 0]
+                continue
+            if r == min_v:
+                image[y][x] = [255, 255, 255]
