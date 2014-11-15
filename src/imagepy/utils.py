@@ -146,3 +146,14 @@ def image_thresholding(image, threshold):
             pixel = image[y][x]
             new_val = 255 if pixel[0] >= threshold else 0
             image[y][x] = [new_val for _ in range(3)]
+
+
+def check_image_pixel_values(pixel):
+    ret = pixel[:]
+    for index, value in enumerate(ret):
+        if value < 0:
+            ret[index] = 0
+        if value > 255:
+            ret[index] = 255
+
+    return ret

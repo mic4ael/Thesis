@@ -14,7 +14,7 @@ def file_name_copy_test():
 
 
 def create_image_object_from_file_test():
-    file_name = 'images/tree.jpg'
+    file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
     assert(image is not None)
 

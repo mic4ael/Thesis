@@ -1,6 +1,6 @@
 __author__ = 'mic4ael'
 
-from .utils import check_is_image, get_image_size, median
+from .utils import check_is_image, get_image_size, median, check_image_pixel_values
 from .exceptions import WrongArgumentType
 
 import numpy as np
@@ -21,8 +21,7 @@ class Filter(object):
             for y in range(len(cls.mask), height - len(cls.mask)):
                 for x in range(len(cls.mask[0]), width - len(cls.mask[0])):
                     neighbours = cls._get_adjacent_pixels_arr(image, x, y)
-                    dst_r, dst_g, dst_b = cls._get_dest_rgb(neighbours)
-                    result[y][x] = [dst_r, dst_g, dst_b]
+                    result[y][x] = cls._get_dest_rgb(neighbours)
 
             return result
 
@@ -31,7 +30,7 @@ class Filter(object):
     @classmethod
     def _get_adjacent_pixels_arr(cls, image, x, y):
         mask_width, mask_height = len(cls.mask[0]), len(cls.mask)
-        x0, y0 = (x - (mask_width - 1) / 2), (y - (mask_height - 1) / 2)
+        x0, y0 = (x - (mask_width - 1) // 2), (y - (mask_height - 1) // 2)
         ret = None
         for i in range(mask_height):
             neighbours = image[y0 + i][x0:x0 + mask_width]
@@ -43,9 +42,12 @@ class Filter(object):
         return ret
 
     @classmethod
-    def _get_dest_rgb(cls, arr):
-        sum_f = lambda n: sum([i[n] for i in arr])
-        return tuple([sum_f(index) / cls.divisor for index in range(3)])
+    def _get_dest_rgb(cls, image_arr):
+        from itertools import chain
+        mask = list(chain.from_iterable(cls.mask))
+        sum_f = lambda n: sum([val[n] * mask[index] for index, val in enumerate(image_arr)])
+        ret = check_image_pixel_values([sum_f(index) // cls.divisor for index in range(3)])
+        return ret
 
 
 class AverageFilter(Filter):
@@ -69,6 +71,13 @@ class SquareFilter(Filter):
             [1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1]]
+
+
+class SharpeningFilter(Filter):
+    divisor = 1
+    mask = [[0, -1/4, 0],
+            [-1/4,  2, -1/4],
+            [0, -1/4, 0]]
 
 
 class MedianFilter(Filter):

@@ -1,7 +1,8 @@
 __author__ = 'mic4ael'
 
 from imagepy import image_read_from_file
-from imagepy.filters import GaussianFilter, AverageFilter, SquareFilter, MinFilter, MaxFilter, MedianFilter
+from imagepy.filters import GaussianFilter, AverageFilter,\
+    SquareFilter, MinFilter, MaxFilter, MedianFilter, SharpeningFilter
 
 
 def average_filter_test():
@@ -40,3 +41,10 @@ def median_filter_test():
     im = image_read_from_file(file)
     im.apply_filter(MedianFilter)
     im.save('images/m_lena_filtered_median.jpg')
+
+
+def sharpening_filter_test():
+    file = 'images/lena.jpg'
+    im = image_read_from_file(file)
+    im.apply_filter(SharpeningFilter)
+    im.save('images/m_lena_filtered_sharpened.jpg')

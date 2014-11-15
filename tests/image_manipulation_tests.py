@@ -101,6 +101,7 @@ def point_operation_test():
     image.point_operation(lambda x: x + 10)
     image.save('images/m_lena_plus_point.jpg')
 
+
 def threshold_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)

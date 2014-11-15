@@ -17,7 +17,7 @@ class Image(object):
 
         if file_path:
             self.file_path = file_path
-            self._image_arr = ndimage.imread(file_path)
+            self._image_arr = ndimage.imread(file_path, mode='RGB')
 
         if file_array is not None:
             if check_is_image(file_array):
@@ -90,7 +90,7 @@ class Image(object):
     def new(cls, size):
         def check_arguments(f_args):
             if any([True for arg in f_args if arg <= 0]):
-                raise WrongArgumentType('One of provided arguments is negative!')
+                raise WrongArgumentType('One of provided arguments is <= 0!')
 
         check_arguments(size)
         img = zeros(size[::-1] + (3, ))
