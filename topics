@@ -10,10 +10,10 @@ DONE:
 - operacje punktowe (np. log, e^x) (DONE)
 - filtracja przestrzenna (uśredniająca, wyostrzająca, dowolnym filtrem) (DONE)
 - filtracja nieliniowa (min, max, mediana) (DONE)
+- zaszumianie szumem Gaussa i impulsowym o zadanych parametrach (DONE)
 
 TODO:
 - odszumowanie i wyostrzanie
-- zaszumianie szumem Gaussa i impulsowym o zadanych parametrach
 
 - poprawa kontrastu (rozciąganie i wyrównywanie histogramu)
 - binaryzacja (globalna z zadanym progiem + automatyczny dobór progu np. Otsu/Isodata)

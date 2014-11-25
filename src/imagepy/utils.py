@@ -175,3 +175,16 @@ def salt_and_pepper_noise(image, min_v, max_v):
                 continue
             if r == min_v:
                 image[y][x] = [255, 255, 255]
+
+
+def image_histogram(image):
+    width, height = get_image_size(image)
+    ret = {key: {i: 0 for i in range(257)} for key in 'rgb'}
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            ret['r'][pixel[0]] += 1
+            ret['g'][pixel[1]] += 1
+            ret['b'][pixel[2]] += 1
+
+    return ret

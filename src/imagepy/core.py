@@ -1,11 +1,14 @@
+import matplotlib.pyplot as plot
+import pylab
+
 from scipy import ndimage, zeros
 from scipy.misc import imsave
-from scipy.ndimage.measurements import histogram
 
 from .utils import nearest_neighbours_scale, rotate_image, \
     get_image_size, check_is_image, vertical_reflection, \
     horizontal_reflection, rgb_split, invert_image, image_gray_scale,\
-    image_thresholding, add_gaussian_noise, salt_and_pepper_noise
+    image_thresholding, add_gaussian_noise, salt_and_pepper_noise, \
+    image_histogram
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -14,6 +17,7 @@ class Image(object):
     def __init__(self, file_path=None, file_array=None):
         self.file_path = None
         self._image_arr = None
+        self.histogram_data = {}
 
         if file_path:
             self.file_path = file_path
@@ -66,7 +70,15 @@ class Image(object):
         return self._image_arr[y][x]
 
     def histogram(self):
-        return histogram(self._image_arr, 0, 1, 50)
+        self.histogram_data = image_histogram(self._image_arr)
+
+    def save_histogram_to_file(self, file_name):
+        x_axis = list(range(257))
+        r_y = list(self.histogram_data['r'].values())
+        g_y = list(self.histogram_data['g'].values())
+        b_y = list(self.histogram_data['b'].values())
+        plot.plot(x_axis, r_y, 'r', x_axis, g_y, 'g', x_axis, b_y, 'b')
+        pylab.savefig(file_name)
 
     def invert(self):
         invert_image(self._image_arr)
