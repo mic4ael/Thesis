@@ -10,13 +10,20 @@ DONE:
 - operacje punktowe (np. log, e^x) (DONE)
 - filtracja przestrzenna (uśredniająca, wyostrzająca, dowolnym filtrem) (DONE)
 - filtracja nieliniowa (min, max, mediana) (DONE)
-- zaszumianie szumem Gaussa i impulsowym o zadanych parametrach (DONE)
+- wyświetlanie histogramu (DONE)
+- zaszumianie szumem Gaussa (DONE)
+- poprawa kontrastu - rozciąganie histogramu (DONE)
 
-TODO:
+DOING:
+- zaszumanie szumem impulsowym o zadanych parametrach
+- poprawa kontrastu (rozciąganie)
 - odszumowanie i wyostrzanie
 
-- poprawa kontrastu (rozciąganie i wyrównywanie histogramu)
+TODO:
 - binaryzacja (globalna z zadanym progiem + automatyczny dobór progu np. Otsu/Isodata)
-
 - prosta kompresja grafiki
-- wyświetlanie histogramu
+
+
+W prezentacji użycie:
+- czcionki Arial
+- numery na slajdach

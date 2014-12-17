@@ -127,4 +127,18 @@ def image_histogram_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
     image.histogram()
-    image.save_histogram_to_file('images/lena_histogram.png')
+    image.save_histogram_to_file('images/m_lena_histogram.png')
+
+
+def histogram_equalization_test():
+    file_name = 'images/unequalized.jpg'
+    image = image_read_from_file(file_name)
+    image.equalize_gray_scale_histogram()
+    image.save('images/m_equalized.jpg')
+
+
+def histogram_stretching_test():
+    file_name = 'images/unequalized.jpg'
+    image = image_read_from_file(file_name)
+    image.stretch_gray_scale_histogram()
+    image.save('images/m_stretched.jpg')

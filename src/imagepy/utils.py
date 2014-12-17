@@ -136,7 +136,7 @@ def image_gray_scale(image):
     for y in range(height):
         for x in range(width):
             pixel = image[y][x]
-            image[y][x] = [sum(pixel) / 3 for _ in range(3)]
+            image[y][x] = [sum(pixel) // 3 for _ in range(3)]
 
 
 def image_thresholding(image, threshold):
@@ -179,7 +179,7 @@ def salt_and_pepper_noise(image, min_v, max_v):
 
 def image_histogram(image):
     width, height = get_image_size(image)
-    ret = {key: {i: 0 for i in range(257)} for key in 'rgb'}
+    ret = {key: {i: 0 for i in range(256)} for key in 'rgb'}
     for y in range(height):
         for x in range(width):
             pixel = image[y][x]
@@ -188,3 +188,64 @@ def image_histogram(image):
             ret['b'][pixel[2]] += 1
 
     return ret
+
+
+def gray_scale_image_histogram(image):
+    width, height = get_image_size(image)
+    ret = {index: 0 for index in range(256)}
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            g_s = sum(pixel) // 3
+            ret[g_s] += 1
+
+    return ret
+
+
+def equalize_gray_scale_histogram(image):
+    image_gray_scale(image)
+    width, height = get_image_size(image)
+    number_of_pixels = width * height
+    gray_scale_histogram = gray_scale_image_histogram(image)
+    values = {}
+    s = 0
+    for key, value in gray_scale_histogram.items():
+        s += value
+        values[key] = {
+            'count': value,
+            'cdf': s,
+            'cdf_scaled': 0
+        }
+
+    min_cdf = None
+    for key, value in values.items():
+        if value['cdf'] != 0 and (min_cdf is None or value['cdf'] < min_cdf):
+            min_cdf = value['cdf']
+
+    for key, value in values.items():
+        dest_val = round(((value['cdf'] - min_cdf) / (number_of_pixels - min_cdf)) * 255)
+        if dest_val > 255:
+            dest_val = 255
+
+        value['cdf_scaled'] = dest_val
+
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            image[y][x] = [values[pixel[0]]['cdf_scaled'] for _ in range(3)]
+
+
+import operator
+
+
+def stretch_gray_scale_histogram(image):
+    image_gray_scale(image)
+    width, height = get_image_size(image)
+    gray_scale_histogram = gray_scale_image_histogram(image)
+    sorted_grayscale = sorted(gray_scale_histogram.items(), reverse=True, key=operator.itemgetter(1))
+    min_intensity, max_intensity = sorted_grayscale[-1][0], sorted_grayscale[0][0]
+
+    for y in range(height):
+        for x in range(width):
+            pixel = image[y][x]
+            image[y][x] = ((gray_scale_histogram[pixel[0]] - min_intensity) / (max_intensity - min_intensity)) * 255

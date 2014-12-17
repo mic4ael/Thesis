@@ -8,7 +8,8 @@ from .utils import nearest_neighbours_scale, rotate_image, \
     get_image_size, check_is_image, vertical_reflection, \
     horizontal_reflection, rgb_split, invert_image, image_gray_scale,\
     image_thresholding, add_gaussian_noise, salt_and_pepper_noise, \
-    image_histogram
+    image_histogram, equalize_gray_scale_histogram, gray_scale_image_histogram, \
+    stretch_gray_scale_histogram
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -72,8 +73,11 @@ class Image(object):
     def histogram(self):
         self.histogram_data = image_histogram(self._image_arr)
 
+    def gray_scale_histogram(self):
+        self.histogram_data = gray_scale_image_histogram(self._image_arr)
+
     def save_histogram_to_file(self, file_name):
-        x_axis = list(range(257))
+        x_axis = list(range(256))
         r_y = list(self.histogram_data['r'].values())
         g_y = list(self.histogram_data['g'].values())
         b_y = list(self.histogram_data['b'].values())
@@ -104,6 +108,12 @@ class Image(object):
     def threshold(self, threshold):
         image_gray_scale(self._image_arr)
         image_thresholding(self._image_arr, threshold)
+
+    def equalize_gray_scale_histogram(self):
+        equalize_gray_scale_histogram(self._image_arr)
+
+    def stretch_gray_scale_histogram(self):
+        stretch_gray_scale_histogram(self._image_arr)
 
     @classmethod
     def new(cls, size):
