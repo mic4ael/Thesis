@@ -12,11 +12,11 @@ DONE:
 - filtracja nieliniowa (min, max, mediana) (DONE)
 - wyświetlanie histogramu (DONE)
 - zaszumianie szumem Gaussa (DONE)
-- poprawa kontrastu - rozciąganie histogramu (DONE)
+- poprawa kontrastu - wyrównywanie histogramu (DONE)
+- poprawa kontrastu (rozciąganie histogramu) (DONE)
 
 DOING:
 - zaszumanie szumem impulsowym o zadanych parametrach
-- poprawa kontrastu (rozciąganie)
 - odszumowanie i wyostrzanie
 
 TODO:

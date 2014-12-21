@@ -1,6 +1,7 @@
 __author__ = 'mic4ael'
 
-from .utils import check_is_image, get_image_size, median, check_image_pixel_values
+from .utils import check_is_image, get_image_size, median, \
+    check_image_pixel_values
 from .exceptions import WrongArgumentType
 
 import numpy as np

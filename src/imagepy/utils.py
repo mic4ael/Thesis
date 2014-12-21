@@ -242,10 +242,11 @@ def stretch_gray_scale_histogram(image):
     image_gray_scale(image)
     width, height = get_image_size(image)
     gray_scale_histogram = gray_scale_image_histogram(image)
-    sorted_grayscale = sorted(gray_scale_histogram.items(), reverse=True, key=operator.itemgetter(1))
-    min_intensity, max_intensity = sorted_grayscale[-1][0], sorted_grayscale[0][0]
+    sorted_grayscale = list(filter(lambda el: el[1] != 0, sorted(gray_scale_histogram.items(), key=operator.itemgetter(0))))
+    min_intensity, max_intensity = sorted_grayscale[0][0], sorted_grayscale[-1][0]
 
     for y in range(height):
         for x in range(width):
             pixel = image[y][x]
-            image[y][x] = ((gray_scale_histogram[pixel[0]] - min_intensity) / (max_intensity - min_intensity)) * 255
+            new_val = ((image[y][x][0] - min_intensity) / (max_intensity - min_intensity)) * 255
+            image[y][x] = [new_val, new_val, new_val]

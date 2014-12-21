@@ -103,6 +103,10 @@ class Image(object):
             for x in range(self.width):
                 pixel = self._image_arr[y][x]
                 new_val = func(pixel[0])
+                if new_val > 255:
+                    new_val = 255
+                if new_val < 0:
+                    new_val = 0
                 self._image_arr[y][x] = [new_val for i in range(3)]
 
     def threshold(self, threshold):

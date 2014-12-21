@@ -95,7 +95,7 @@ def point_operation_test():
     from math import log
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
-    image.point_operation(lambda x: log(x))
+    image.point_operation(lambda x: 145 * log(x + 1))
     image.save('images/m_lena_log_point.jpg')
     image = image_read_from_file(file_name)
     image.point_operation(lambda x: x + 10)
@@ -138,7 +138,7 @@ def histogram_equalization_test():
 
 
 def histogram_stretching_test():
-    file_name = 'images/unequalized.jpg'
+    file_name = 'images/histogram_stretching.gif'
     image = image_read_from_file(file_name)
     image.stretch_gray_scale_histogram()
-    image.save('images/m_stretched.jpg')
+    image.save('images/m_histogram_stretching.gif')
