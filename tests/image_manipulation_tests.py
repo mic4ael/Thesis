@@ -120,7 +120,7 @@ def salt_and_pepper_noise_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
     image.salt_and_pepper_noise(0, 10)
-    image.save('images/m_lena_sal_and_pepper_noise.jpg')
+    image.save('images/m_lena_salt_and_pepper_noise.jpg')
 
 
 def image_histogram_test():

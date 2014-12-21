@@ -14,9 +14,9 @@ DONE:
 - zaszumianie szumem Gaussa (DONE)
 - poprawa kontrastu - wyrównywanie histogramu (DONE)
 - poprawa kontrastu (rozciąganie histogramu) (DONE)
+- zaszumanie szumem impulsowym o zadanych parametrach (DONE)
 
 DOING:
-- zaszumanie szumem impulsowym o zadanych parametrach
 - odszumowanie i wyostrzanie
 
 TODO:

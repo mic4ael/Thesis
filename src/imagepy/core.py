@@ -93,9 +93,9 @@ class Image(object):
     def gaussian_noise(self, mean=6, variance=36):
         self._image_arr = add_gaussian_noise(self._image_arr, mean, variance)
 
-    def salt_and_pepper_noise(self, min_v=0, max_v=255):
+    def salt_and_pepper_noise(self, min_v=0, max_v=255, min_pixel_value=0, max_pixel_value=255):
         image_gray_scale(self._image_arr)
-        salt_and_pepper_noise(self._image_arr, min_v, max_v)
+        salt_and_pepper_noise(self._image_arr, min_v, max_v, min_pixel_value, max_pixel_value)
 
     def point_operation(self, func):
         image_gray_scale(self._image_arr)

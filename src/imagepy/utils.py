@@ -164,17 +164,17 @@ def add_gaussian_noise(image, mean, variance):
     return image + noise
 
 
-def salt_and_pepper_noise(image, min_v, max_v):
+def salt_and_pepper_noise(image, min_v, max_v, min_p_val, max_p_val):
     width, height = get_image_size(image)
     random_numbers = np.random.randint(min_v, max_v, (height, width, 1))
     for y in range(height):
         for x in range(width):
             r = random_numbers[y][x]
             if r == min_v:
-                image[y][x] = [0, 0, 0]
+                image[y][x] = [min_p_val, min_p_val, min_p_val]
                 continue
             if r == min_v:
-                image[y][x] = [255, 255, 255]
+                image[y][x] = [max_p_val, max_p_val, max_p_val]
 
 
 def image_histogram(image):
