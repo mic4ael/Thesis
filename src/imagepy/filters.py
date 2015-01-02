@@ -47,8 +47,7 @@ class Filter(object):
         from itertools import chain
         mask = list(chain.from_iterable(cls.mask))
         sum_f = lambda n: sum([val[n] * mask[index] for index, val in enumerate(image_arr)])
-        ret = check_image_pixel_values([sum_f(index) // cls.divisor for index in range(3)])
-        return ret
+        return check_image_pixel_values([sum_f(index) // cls.divisor for index in range(3)])
 
 
 class AverageFilter(Filter):
@@ -75,10 +74,10 @@ class SquareFilter(Filter):
 
 
 class SharpeningFilter(Filter):
-    divisor = 1
-    mask = [[0, -1/4, 0],
-            [-1/4,  2, -1/4],
-            [0, -1/4, 0]]
+    divisor = 3
+    mask = [[0, -2, 0],
+            [-2, 11, -2],
+            [0, -2, 0]]
 
 
 class MedianFilter(Filter):

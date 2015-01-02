@@ -6,6 +6,8 @@ from nose.tools import raises, assert_raises
 
 from scipy import ndarray
 
+import numpy as np
+
 
 def file_name_copy_test():
     file_name = 'test.jpg'
@@ -44,11 +46,15 @@ def create_image_object_exception_test():
 
 
 def image_size_test():
-    file_name = 'images/sunflower.jpg'
+    file_name = 'images/sunflower.tiff'
     result = image_read_from_file(file_name)
-    assert(result.size == (768, 1024))
-    assert(result.width == 768)
-    assert(result.height == 1024)
+    assert(result.size == (300, 300))
+    assert(result.width == 300)
+    assert(result.height == 300)
+    image = image_read_from_array(np.zeros((101, 102, 3), dtype=ndarray))
+    assert(image.size == (102, 101))
+    assert(image.width == 102)
+    assert(image.height == 101)
 
 
 def image_new_test():

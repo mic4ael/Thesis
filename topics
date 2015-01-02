@@ -15,9 +15,10 @@ DONE:
 - poprawa kontrastu - wyrównywanie histogramu (DONE)
 - poprawa kontrastu (rozciąganie histogramu) (DONE)
 - zaszumanie szumem impulsowym o zadanych parametrach (DONE)
+- wyostrzanie (DONE)
 
 DOING:
-- odszumowanie i wyostrzanie
+- odszumianie
 
 TODO:
 - binaryzacja (globalna z zadanym progiem + automatyczny dobór progu np. Otsu/Isodata)
