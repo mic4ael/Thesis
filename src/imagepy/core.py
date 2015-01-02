@@ -9,7 +9,7 @@ from .utils import nearest_neighbours_scale, rotate_image, \
     horizontal_reflection, rgb_split, invert_image, image_gray_scale,\
     image_thresholding, add_gaussian_noise, salt_and_pepper_noise, \
     image_histogram, equalize_gray_scale_histogram, gray_scale_image_histogram, \
-    stretch_gray_scale_histogram
+    stretch_gray_scale_histogram, assert_pixel_value
 
 from imagepy.exceptions import WrongArgumentType
 
@@ -102,12 +102,7 @@ class Image(object):
         for y in range(self.height):
             for x in range(self.width):
                 pixel = self._image_arr[y][x]
-                new_val = func(pixel[0])
-                if new_val > 255:
-                    new_val = 255
-                if new_val < 0:
-                    new_val = 0
-                self._image_arr[y][x] = [new_val for i in range(3)]
+                self._image_arr[y][x] = [assert_pixel_value(func(pixel[0])) for i in range(3)]
 
     def threshold(self, threshold):
         image_gray_scale(self._image_arr)
@@ -118,6 +113,24 @@ class Image(object):
 
     def stretch_gray_scale_histogram(self):
         stretch_gray_scale_histogram(self._image_arr)
+
+    def change_brightness(self, factor):
+        for y in range(self.height):
+            for x in range(self.width):
+                pixel = self._image_arr[y][x]
+                self._image_arr[y][x] = [assert_pixel_value(el + factor) for el in pixel]
+
+    def adjust_contrast(self, contrast):
+        contrast_factor = (259 * (259 + contrast)) / (259 * (259 - contrast))
+        f = lambda arg: contrast_factor * (arg - 128) + 128
+        for y in range(self.height):
+            for x in range(self.width):
+                pixel = self._image_arr[y][x]
+                self._image_arr[y][x] = [assert_pixel_value(f(el)) for el in pixel]
+
+    def sharpen(self):
+        from .filters import SharpeningFilter
+        self.apply_filter(SharpeningFilter)
 
     @classmethod
     def new(cls, size):
@@ -140,3 +153,7 @@ class Image(object):
     @property
     def rgb_channels(self):
         return self.r, self.g, self.b
+
+    @property
+    def pixels(self):
+        return self._image_arr

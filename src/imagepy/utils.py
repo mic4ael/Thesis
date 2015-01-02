@@ -250,3 +250,12 @@ def stretch_gray_scale_histogram(image):
             pixel = image[y][x]
             new_val = ((image[y][x][0] - min_intensity) / (max_intensity - min_intensity)) * 255
             image[y][x] = [new_val, new_val, new_val]
+
+
+def assert_pixel_value(val):
+    if val < 0:
+        return 0
+    if val > 255:
+        return 255
+
+    return val
