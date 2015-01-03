@@ -136,10 +136,10 @@ def point_operation_test():
 
 
 def threshold_test():
-    file_name = 'images/threshold.gif'
+    file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
     image.threshold(114)
-    image.save('images/m_threshold_threshold.gif')
+    image.save('images/m_lena_threshold.jpg')
     image = image_read_from_array(np.ones((1, 2, 3), dtype=ndarray))
     image.pixels[0][:] = [[200, 200, 200], [30, 0, 45]]
     image.threshold(150)
@@ -147,10 +147,10 @@ def threshold_test():
 
 
 def otsu_thresholding_test():
-    file_name = 'images/threshold.gif'
+    file_name = 'images/otsu_test.jpg'
     image = image_read_from_file(file_name)
     image.otsu_threshold()
-    image.save('images/m_otsu_threshold.gif')
+    image.save('images/m_otsu_threshold.jpg')
 
 
 def gaussian_noise_test():

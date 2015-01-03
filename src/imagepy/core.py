@@ -11,6 +11,8 @@ from .utils import nearest_neighbours_scale, rotate_image, \
     image_histogram, equalize_gray_scale_histogram, gray_scale_image_histogram, \
     stretch_gray_scale_histogram, assert_pixel_value, otsu_threshold, translate_image
 
+from .filters import SharpeningFilter, GaussianFilter
+
 from imagepy.exceptions import WrongArgumentType
 
 
@@ -135,8 +137,10 @@ class Image(object):
                 self._image_arr[y][x] = [assert_pixel_value(f(el)) for el in pixel]
 
     def sharpen(self):
-        from .filters import SharpeningFilter
         self.apply_filter(SharpeningFilter)
+
+    def denoise(self):
+        self.apply_filter(GaussianFilter)
 
     @classmethod
     def new(cls, size):

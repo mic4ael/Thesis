@@ -48,3 +48,10 @@ def sharpening_filter_test():
     im = image_read_from_file(file)
     im.apply_filter(SharpeningFilter)
     im.save('images/m_lena_filtered_sharpened.jpg')
+
+
+def denoising_test():
+    file = 'images/noised_image.jpg'
+    im = image_read_from_file(file)
+    im.denoise()
+    im.save('images/m_denoised.jpg')

@@ -17,12 +17,11 @@ DONE:
 - zaszumanie szumem impulsowym o zadanych parametrach (DONE)
 - wyostrzanie (DONE)
 - binaryzacja (globalna z zadanym progiem + automatyczny dobór progu np. Otsu/Isodata) (DONE)
+- odszumianie (DONE)
 
-DOING:
-- odszumianie
 
 TODO:
-- prosta kompresja grafiki
+- prosta kompresja grafiki?
 
 
 W prezentacji użycie:
