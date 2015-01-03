@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import operator
 
 from scipy import ndarray
 
@@ -20,8 +21,25 @@ def generate_copy_filename(file_name):
     )
 
 
-def translate_image(image):
-    pass
+def translate_image(image, d_x, d_y):
+    width, height = get_image_size(image)
+    result = np.zeros((height, width, 3), dtype=image.dtype)
+    for y in range(height):
+        for x in range(width):
+            yy = d_y + y
+            if yy >= height:
+                yy = height - 1
+            if yy < 0:
+                yy = 0
+            xx = d_x + x
+            if xx >= width:
+                xx = width - 1
+            if xx < 0:
+                xx = 0
+
+            result[yy, xx] = image[y, x]
+
+    return result
 
 
 def rotate_image(image, angle):
@@ -34,16 +52,17 @@ def rotate_image(image, angle):
 
     if angle == 0 or angle == 360 or angle == -360:
         return image
+
     angle = math.radians(angle)
     width, height = get_image_size(image)
     cent_x, cent_y = width // 2, height // 2
     rotated_image = np.zeros((width, height, 3), dtype=image.dtype)
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
             dest_x = validate_size((x - cent_x) * math.cos(angle) - (y - cent_y) * math.sin(angle) + cent_y, height)
             dest_y = validate_size((x - cent_x) * math.sin(angle) + (y - cent_y) * math.cos(angle) + cent_x, width)
-            rotated_image[dest_y][dest_x] = pixel
+            rotated_image[dest_y, dest_x] = image[y, x]
+
     return rotated_image
 
 
@@ -64,7 +83,7 @@ def nearest_neighbours_scale(image, dst_size):
         for x in range(dst_width):
             px = math.floor(x * x_ratio)
             py = math.floor(y * y_ratio)
-            result[y][x] = image[py][px]
+            result[y, x] = image[py, px]
 
     return result
 
@@ -75,15 +94,16 @@ def check_is_image(image):
 
 
 def median(arg):
-    if isinstance(arg, (list, tuple)):
+    if isinstance(arg, (list, tuple, set)):
         sorted_arg = sorted(arg)
         arg_len = len(sorted_arg)
-        if arg_len % 2 == 0:
-            return (sorted_arg[arg_len // 2] + sorted_arg[(arg_len // 2) + 1]) / 2
+        index = (arg_len - 1) // 2
+        if index % 2 != 0:
+            return (sorted_arg[index] + sorted_arg[index + 1]) / 2
         else:
-            return sorted_arg[arg_len // 2]
+            return sorted_arg[index]
 
-    raise WrongArgumentType('Argument must be of list or tuple type')
+    raise WrongArgumentType('Argument must be tuple, list or set')
 
 
 def vertical_reflection(image):
@@ -91,8 +111,7 @@ def vertical_reflection(image):
     new_image = np.zeros((height, width, 3), dtype=image.dtype)
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
-            new_image[y][width - x - 1] = pixel
+            new_image[y, width - x - 1] = image[y, x]
 
     return new_image
 
@@ -102,8 +121,7 @@ def horizontal_reflection(image):
     new_image = np.zeros((height, width, 3), dtype=image.dtype)
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
-            new_image[height - y - 1][x] = pixel
+            new_image[height - y - 1, x] = image[y, x]
 
     return new_image
 
@@ -115,10 +133,7 @@ def rgb_split(image):
     b = np.zeros((height, width, 3), dtype=image.dtype)
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
-            r[y][x] = pixel[0]
-            g[y][x] = pixel[1]
-            b[y][x] = pixel[2]
+            r[y][x][0], g[y][x][1], b[y][x][2] = image[y][x]
 
     return r, g, b
 
@@ -127,36 +142,24 @@ def invert_image(image):
     width, height = get_image_size(image)
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
-            image[y][x] = 1 - pixel[0], 1 - pixel[1], 1 - pixel[2]
+            image[y, x] = list(map(lambda arg: 255 - arg, image[y, x]))
 
 
 def image_gray_scale(image):
     width, height = get_image_size(image)
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
-            image[y][x] = [sum(pixel) // 3 for _ in range(3)]
+            image[y, x] = [sum(image[y, x]) // 3] * 3
 
 
 def image_thresholding(image, threshold):
+    image_gray_scale(image)
     width, height = get_image_size(image)
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
+            pixel = image[y, x]
             new_val = 255 if pixel[0] >= threshold else 0
-            image[y][x] = [new_val for _ in range(3)]
-
-
-def check_image_pixel_values(pixel):
-    ret = pixel[:]
-    for index, value in enumerate(ret):
-        if value < 0:
-            ret[index] = 0
-        if value > 255:
-            ret[index] = 255
-
-    return ret
+            image[y, x] = [new_val, new_val, new_val]
 
 
 def add_gaussian_noise(image, mean, variance):
@@ -169,12 +172,12 @@ def salt_and_pepper_noise(image, min_v, max_v, min_p_val, max_p_val):
     random_numbers = np.random.randint(min_v, max_v, (height, width, 1))
     for y in range(height):
         for x in range(width):
-            r = random_numbers[y][x]
+            r = random_numbers[y, x]
             if r == min_v:
-                image[y][x] = [min_p_val, min_p_val, min_p_val]
-                continue
-            if r == min_v:
-                image[y][x] = [max_p_val, max_p_val, max_p_val]
+                image[y, x] = [min_p_val, min_p_val, min_p_val]
+
+            if r == max_v:
+                image[y, x] = [max_p_val, max_p_val, max_p_val]
 
 
 def image_histogram(image):
@@ -182,7 +185,7 @@ def image_histogram(image):
     ret = {key: {i: 0 for i in range(256)} for key in 'rgb'}
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
+            pixel = image[y, x]
             ret['r'][pixel[0]] += 1
             ret['g'][pixel[1]] += 1
             ret['b'][pixel[2]] += 1
@@ -195,8 +198,7 @@ def gray_scale_image_histogram(image):
     ret = {index: 0 for index in range(256)}
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
-            g_s = sum(pixel) // 3
+            g_s = sum(image[y, x]) // 3
             ret[g_s] += 1
 
     return ret
@@ -231,25 +233,24 @@ def equalize_gray_scale_histogram(image):
 
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
-            image[y][x] = [values[pixel[0]]['cdf_scaled'] for _ in range(3)]
-
-
-import operator
+            pixel = image[y, x]
+            image[y, x] = [values[pixel[0]]['cdf_scaled'] for _ in range(3)]
 
 
 def stretch_gray_scale_histogram(image):
     image_gray_scale(image)
     width, height = get_image_size(image)
     gray_scale_histogram = gray_scale_image_histogram(image)
-    sorted_grayscale = list(filter(lambda el: el[1] != 0, sorted(gray_scale_histogram.items(), key=operator.itemgetter(0))))
+    sorted_grayscale = list(filter(
+        lambda el: el[1] != 0,
+        sorted(gray_scale_histogram.items(), key=operator.itemgetter(0)))
+    )
     min_intensity, max_intensity = sorted_grayscale[0][0], sorted_grayscale[-1][0]
 
     for y in range(height):
         for x in range(width):
-            pixel = image[y][x]
             new_val = ((image[y][x][0] - min_intensity) / (max_intensity - min_intensity)) * 255
-            image[y][x] = [new_val, new_val, new_val]
+            image[y, x] = [new_val, new_val, new_val]
 
 
 def assert_pixel_value(val):
@@ -259,3 +260,31 @@ def assert_pixel_value(val):
         return 255
 
     return val
+
+
+def otsu_threshold(image):
+    width, height = get_image_size(image)
+    histogram = gray_scale_image_histogram(image)
+    wB, wF, sum, sumB, mB, mF, between, max, result = 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+    for i in range(256):
+        sum += i * histogram[i]
+
+    for intensity in range(256):
+        wB += histogram[intensity]
+        if wB == 0:
+            continue
+
+        wF = (width * height) - wB
+        if wF == 0:
+            break
+
+        sumB += intensity * histogram[intensity]
+        mB = sumB / wB
+        mF = (sum - sumB) / wF
+        between = wB * wF * ((mB - mF) ** 2)
+        if between > max:
+            max = between
+            result = intensity
+
+    return result

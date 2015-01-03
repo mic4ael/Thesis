@@ -9,38 +9,40 @@ from .utils import nearest_neighbours_scale, rotate_image, \
     horizontal_reflection, rgb_split, invert_image, image_gray_scale,\
     image_thresholding, add_gaussian_noise, salt_and_pepper_noise, \
     image_histogram, equalize_gray_scale_histogram, gray_scale_image_histogram, \
-    stretch_gray_scale_histogram, assert_pixel_value
+    stretch_gray_scale_histogram, assert_pixel_value, otsu_threshold, translate_image
 
 from imagepy.exceptions import WrongArgumentType
 
 
 class Image(object):
     def __init__(self, file_path=None, file_array=None):
-        self.file_path = None
+        self._file_path = None
         self._image_arr = None
         self.histogram_data = {}
 
         if file_path:
-            self.file_path = file_path
+            self._file_path = file_path
             self._image_arr = ndimage.imread(file_path, mode='RGB')
 
         if file_array is not None:
             if check_is_image(file_array):
                 self._image_arr = file_array
             else:
-                raise WrongArgumentType('File array if provided must be of ndarray type')
+                raise WrongArgumentType('File array must be of ndarray type')
 
-        self.r, self.g, self.b = rgb_split(self._image_arr)
         # ndimage.shape returns tuple where first element is height, then width
         if self._image_arr is not None:
             self.width, self.height = get_image_size(self._image_arr)
 
     def resize(self, size):
         self._image_arr = nearest_neighbours_scale(self._image_arr, size)
-        self.width, self.height = size
+        self.width, self.height = get_image_size(self._image_arr)
 
     def rotate(self, angle):
         self._image_arr = rotate_image(self._image_arr, angle)
+
+    def translate(self, x, y):
+        self._image_arr = translate_image(self._image_arr, x, y)
 
     def thumbnail(self, size):
         if (isinstance(size, (tuple, list)) and len(size) != 2) \
@@ -55,7 +57,7 @@ class Image(object):
         self._image_arr = filter_cls.apply_filter(self._image_arr)
 
     def save(self, file_path=None):
-        file_path_to_save = file_path or self.file_path
+        file_path_to_save = file_path or self._file_path
         imsave(file_path_to_save, self._image_arr)
 
     def horizontal_reflection(self):
@@ -97,16 +99,20 @@ class Image(object):
         image_gray_scale(self._image_arr)
         salt_and_pepper_noise(self._image_arr, min_v, max_v, min_pixel_value, max_pixel_value)
 
-    def point_operation(self, func):
-        image_gray_scale(self._image_arr)
+    def point_operation(self, func, convert_to_greyscale=True):
+        if convert_to_greyscale:
+            image_gray_scale(self._image_arr)
+
         for y in range(self.height):
             for x in range(self.width):
                 pixel = self._image_arr[y][x]
-                self._image_arr[y][x] = [assert_pixel_value(func(pixel[0])) for i in range(3)]
+                self._image_arr[y][x] = [assert_pixel_value(func(i)) for i in pixel]
 
     def threshold(self, threshold):
-        image_gray_scale(self._image_arr)
         image_thresholding(self._image_arr, threshold)
+
+    def otsu_threshold(self):
+        image_thresholding(self._image_arr, otsu_threshold(self._image_arr))
 
     def equalize_gray_scale_histogram(self):
         equalize_gray_scale_histogram(self._image_arr)
@@ -152,6 +158,7 @@ class Image(object):
 
     @property
     def rgb_channels(self):
+        self.r, self.g, self.b = rgb_split(self._image_arr)
         return self.r, self.g, self.b
 
     @property

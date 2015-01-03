@@ -46,17 +46,20 @@ def thumbnail_test():
     image.save('images/m_sunflower_thumbnail.tiff')
     assert(image.size == (50, 50))
 
+
 @raises(WrongArgumentType)
 def thumbnail_wrong_argument_int_test():
     file_name = 'images/sunflower.tiff'
     image = image_read_from_file(file_name)
     image.thumbnail(5)
 
+
 @raises(WrongArgumentType)
 def thumbnail_wrong_argument_too_short_test():
     file_name = 'images/sunflower.tiff'
     image = image_read_from_file(file_name)
     image.thumbnail((1,))
+
 
 @raises(WrongArgumentType)
 def thumbnail_wrong_argument_too_long_test():
@@ -94,6 +97,12 @@ def rgb_split_test():
     image_read_from_array(r).save('images/m_lena_r.jpg')
     image_read_from_array(g).save('images/m_lena_g.jpg')
     image_read_from_array(b).save('images/m_lena_b.jpg')
+    image = image_read_from_array(np.zeros((1, 2, 3), dtype=ndarray))
+    image.pixels[0][:] = [[3, 4, 2], [5, 6, 7]]
+    r, g, b = image.rgb_channels
+    assert(r.tolist() == [[[3, 0, 0], [5, 0, 0]]])
+    assert(g.tolist() == [[[0, 4, 0], [0, 6, 0]]])
+    assert(b.tolist() == [[[0, 0, 2], [0, 0, 7]]])
 
 
 def invert_image_test():
@@ -101,6 +110,10 @@ def invert_image_test():
     image = image_read_from_file(file_name)
     image.invert()
     image.save('images/m_lena_inverted.jpg')
+    image = image_read_from_array(np.ones((1, 2, 3), dtype=ndarray))
+    image.pixels[0][:] = [[200, 100, 123], [0, 1, 4]]
+    image.invert()
+    assert(image.pixels.tolist() == [[[55, 155, 132], [255, 254, 251]]])
 
 
 def gray_scale_test():
@@ -108,21 +121,36 @@ def gray_scale_test():
     image = image_read_from_file(file_name)
     image.gray_scale()
     image.save('images/m_lena_gray_scale.jpg')
+    image = image_read_from_array(np.ones((1, 2, 3), dtype=ndarray))
+    image.pixels[0][:] = [[11, 20, 30], [5, 4, 3]]
+    image.gray_scale()
+    assert(image.pixels.tolist() == [[[20, 20, 20], [4, 4, 4]]])
 
 
 def point_operation_test():
-    from math import log
+    from math import log10
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
-    image.point_operation(lambda x: 145 * log(x + 1))
+    image.point_operation(lambda x: 145 * log10(x + 1))
     image.save('images/m_lena_log_point.jpg')
 
 
 def threshold_test():
-    file_name = 'images/lena.jpg'
+    file_name = 'images/threshold.gif'
     image = image_read_from_file(file_name)
     image.threshold(114)
-    image.save('images/m_lena_threshold.jpg')
+    image.save('images/m_threshold_threshold.gif')
+    image = image_read_from_array(np.ones((1, 2, 3), dtype=ndarray))
+    image.pixels[0][:] = [[200, 200, 200], [30, 0, 45]]
+    image.threshold(150)
+    assert(image.pixels.tolist() == [[[255, 255, 255], [0, 0, 0]]])
+
+
+def otsu_thresholding_test():
+    file_name = 'images/threshold.gif'
+    image = image_read_from_file(file_name)
+    image.otsu_threshold()
+    image.save('images/m_otsu_threshold.gif')
 
 
 def gaussian_noise_test():
@@ -185,3 +213,15 @@ def adjusting_contrast_test():
     image = image_read_from_file('images/lena.jpg')
     image.adjust_contrast(128)
     image.save('images/m_lena_increased_contrast.jpg')
+
+
+def image_translation_test():
+    image = image_read_from_file('images/lena.jpg')
+    image.translate(100, 100)
+    image.save('images/m_lena_translated.jpg')
+    image = image_read_from_file('images/lena.jpg')
+    image.translate(-50, 100)
+    image.save('images/m_lena_translated_2.jpg')
+    image = image_read_from_file('images/lena.jpg')
+    image.translate(-50, -50)
+    image.save('images/m_lena_translated_3.jpg')

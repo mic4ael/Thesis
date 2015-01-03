@@ -1,8 +1,11 @@
 __author__ = 'mic4ael'
 
 from .utils import check_is_image, get_image_size, median, \
-    check_image_pixel_values
+    assert_pixel_value
+
 from .exceptions import WrongArgumentType
+
+from itertools import chain
 
 import numpy as np
 
@@ -44,10 +47,9 @@ class Filter(object):
 
     @classmethod
     def _get_dest_rgb(cls, image_arr):
-        from itertools import chain
         mask = list(chain.from_iterable(cls.mask))
         sum_f = lambda n: sum([val[n] * mask[index] for index, val in enumerate(image_arr)])
-        return check_image_pixel_values([sum_f(index) // cls.divisor for index in range(3)])
+        return [assert_pixel_value(sum_f(index) // cls.divisor) for index in range(3)]
 
 
 class AverageFilter(Filter):
