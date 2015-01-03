@@ -98,3 +98,6 @@ class MinFilter(Filter):
     @classmethod
     def _get_dest_rgb(cls, neighbours):
         return tuple([min(i) for i in list(zip(*neighbours))])
+
+
+__all__ = [str(element) for element in dir() if element.endswith('Filter')]

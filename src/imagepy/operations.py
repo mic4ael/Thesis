@@ -302,3 +302,7 @@ def local_adaptive_thresholding(image, block_size):
             l_threshold = median(d)
             new_pixel_val = 255 if image[y, x, 0] >= l_threshold else 0
             image[y, x] = [new_pixel_val, new_pixel_val, new_pixel_val]
+
+
+_not_in_public_api = ['ndarray', 'math', 'operator', 'np', 'WrongArgumentType']
+__all__ = [str(element) for element in dir() if not element.startswith('_') and element not in _not_in_public_api]

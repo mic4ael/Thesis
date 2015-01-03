@@ -14,7 +14,7 @@ from .operations import nearest_neighbours_scale, rotate_image, \
 
 from .filters import SharpeningFilter, GaussianFilter
 
-from imagepy.exceptions import WrongArgumentType
+from .exceptions import WrongArgumentType
 
 
 class Image(object):
@@ -172,3 +172,6 @@ class Image(object):
     @property
     def pixels(self):
         return self._image_arr
+
+
+__all__ = ['Image']
