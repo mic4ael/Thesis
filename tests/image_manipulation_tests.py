@@ -146,6 +146,13 @@ def threshold_test():
     assert(image.pixels.tolist() == [[[255, 255, 255], [0, 0, 0]]])
 
 
+def local_thresholding_test():
+    file_name = 'images/adaptive_threshold_test.gif'
+    image = image_read_from_file(file_name)
+    image.local_adaptive_thresholding(7)
+    image.save('images/m_lena_local_threshold.gif')
+
+
 def otsu_thresholding_test():
     file_name = 'images/otsu_test.jpg'
     image = image_read_from_file(file_name)

@@ -9,7 +9,8 @@ from .utils import nearest_neighbours_scale, rotate_image, \
     horizontal_reflection, rgb_split, invert_image, image_gray_scale,\
     image_thresholding, add_gaussian_noise, salt_and_pepper_noise, \
     image_histogram, equalize_gray_scale_histogram, gray_scale_image_histogram, \
-    stretch_gray_scale_histogram, assert_pixel_value, otsu_threshold, translate_image
+    stretch_gray_scale_histogram, assert_pixel_value, otsu_threshold, translate_image, \
+    local_adaptive_thresholding
 
 from .filters import SharpeningFilter, GaussianFilter
 
@@ -115,6 +116,9 @@ class Image(object):
 
     def otsu_threshold(self):
         image_thresholding(self._image_arr, otsu_threshold(self._image_arr))
+
+    def local_adaptive_thresholding(self, block_size):
+        local_adaptive_thresholding(self._image_arr, block_size)
 
     def equalize_gray_scale_histogram(self):
         equalize_gray_scale_histogram(self._image_arr)

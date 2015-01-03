@@ -288,3 +288,17 @@ def otsu_threshold(image):
             result = intensity
 
     return result
+
+
+def local_adaptive_thresholding(image, block_size):
+    width, height = get_image_size(image)
+    t = block_size // 2
+
+    for y in range(t, height - t):
+        for x in range(t, width - t):
+            s = image[np.ix_(list(range(y - t, y + t)), list(range(x - t, x + t)))]
+            histogram = gray_scale_image_histogram(s)
+            d = list({key: value for key, value in histogram.items() if value != 0}.keys())
+            l_threshold = median(d)
+            new_pixel_val = 255 if image[y, x, 0] >= l_threshold else 0
+            image[y, x] = [new_pixel_val, new_pixel_val, new_pixel_val]
