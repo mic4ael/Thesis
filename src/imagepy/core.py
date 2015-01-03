@@ -4,7 +4,7 @@ import pylab
 from scipy import ndimage, zeros
 from scipy.misc import imsave
 
-from .utils import nearest_neighbours_scale, rotate_image, \
+from .operations import nearest_neighbours_scale, rotate_image, \
     get_image_size, check_is_image, vertical_reflection, \
     horizontal_reflection, rgb_split, invert_image, image_gray_scale,\
     image_thresholding, add_gaussian_noise, salt_and_pepper_noise, \

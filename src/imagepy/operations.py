@@ -296,8 +296,8 @@ def local_adaptive_thresholding(image, block_size):
 
     for y in range(t, height - t):
         for x in range(t, width - t):
-            s = image[np.ix_(list(range(y - t, y + t)), list(range(x - t, x + t)))]
-            histogram = gray_scale_image_histogram(s)
+            sub_image = image[np.ix_(list(range(y - t, y + t + 1)), list(range(x - t, x + t + 1)))]
+            histogram = gray_scale_image_histogram(sub_image)
             d = list({key: value for key, value in histogram.items() if value != 0}.keys())
             l_threshold = median(d)
             new_pixel_val = 255 if image[y, x, 0] >= l_threshold else 0

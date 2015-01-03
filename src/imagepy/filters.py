@@ -1,6 +1,6 @@
 __author__ = 'mic4ael'
 
-from .utils import check_is_image, get_image_size, median, \
+from .operations import check_is_image, get_image_size, median, \
     assert_pixel_value
 
 from .exceptions import WrongArgumentType
@@ -25,7 +25,7 @@ class Filter(object):
             for y in range(len(cls.mask), height - len(cls.mask)):
                 for x in range(len(cls.mask[0]), width - len(cls.mask[0])):
                     neighbours = cls._get_adjacent_pixels_arr(image, x, y)
-                    result[y][x] = cls._get_dest_rgb(neighbours)
+                    result[y, x] = cls._get_dest_rgb(neighbours)
 
             return result
 
