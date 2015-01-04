@@ -170,7 +170,7 @@ def gaussian_noise_test():
 def salt_and_pepper_noise_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
-    image.salt_and_pepper_noise(0, 10)
+    image.salt_and_pepper_noise()
     image.save('images/m_lena_salt_and_pepper_noise.jpg')
 
 

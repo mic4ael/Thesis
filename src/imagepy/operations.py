@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import random
 import operator
 
 from scipy import ndarray
@@ -167,17 +168,19 @@ def add_gaussian_noise(image, mean, variance):
     return image + noise
 
 
-def salt_and_pepper_noise(image, min_v, max_v, min_p_val, max_p_val):
+def salt_and_pepper_noise(image, min_p_val, max_p_val):
+    image_gray_scale(image)
     width, height = get_image_size(image)
-    random_numbers = np.random.randint(min_v, max_v, (height, width, 1))
+    random_numbers = np.random.randint(0, 255, (height, width, 1))
     for y in range(height):
         for x in range(width):
             r = random_numbers[y, x]
-            if r == min_v:
-                image[y, x] = [min_p_val, min_p_val, min_p_val]
+            if random.random() > 0.95:
+                if image[y, x][0] < r:
+                    image[y, x] = [min_p_val, min_p_val, min_p_val]
 
-            if r == max_v:
-                image[y, x] = [max_p_val, max_p_val, max_p_val]
+                if image[y, x][0] > r:
+                    image[y, x] = [max_p_val, max_p_val, max_p_val]
 
 
 def image_histogram(image):
@@ -304,5 +307,5 @@ def local_adaptive_thresholding(image, block_size):
             image[y, x] = [new_pixel_val, new_pixel_val, new_pixel_val]
 
 
-_not_in_public_api = ['ndarray', 'math', 'operator', 'np', 'WrongArgumentType']
+_not_in_public_api = ['ndarray', 'math', 'operator', 'np', 'WrongArgumentType', 'random']
 __all__ = [str(element) for element in dir() if not element.startswith('_') and element not in _not_in_public_api]
