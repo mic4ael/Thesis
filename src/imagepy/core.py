@@ -12,7 +12,7 @@ from .operations import nearest_neighbours_scale, rotate_image, \
     stretch_gray_scale_histogram, assert_pixel_value, otsu_threshold, translate_image, \
     local_adaptive_thresholding
 
-from .filters import SharpeningFilter, GaussianFilter
+from .filters import SharpeningFilter, AverageFilter
 
 from .exceptions import WrongArgumentType
 
@@ -77,17 +77,26 @@ class Image(object):
 
     def histogram(self):
         self.histogram_data = image_histogram(self._image_arr)
+        return self.histogram_data
 
     def gray_scale_histogram(self):
         self.histogram_data = gray_scale_image_histogram(self._image_arr)
+        return self.histogram_data
 
     def save_histogram_to_file(self, file_name):
         x_axis = list(range(256))
-        r_y = list(self.histogram_data['r'].values())
-        g_y = list(self.histogram_data['g'].values())
-        b_y = list(self.histogram_data['b'].values())
-        plot.plot(x_axis, r_y, 'r', x_axis, g_y, 'g', x_axis, b_y, 'b')
+        try:
+            r_y = list(self.histogram_data['r'].values())
+            g_y = list(self.histogram_data['g'].values())
+            b_y = list(self.histogram_data['b'].values())
+            plot.stem(x_axis, r_y, linefmt='r', markerfmt=' ')
+            plot.stem(x_axis, g_y, linefmt='g', markerfmt=' ')
+            plot.stem(x_axis, b_y, linefmt='b', markerfmt=' ')
+        except KeyError:
+            plot.stem(x_axis, list(self.histogram_data.values()), markerfmt=' ')
+
         pylab.savefig(file_name)
+        pylab.close()
 
     def invert(self):
         invert_image(self._image_arr)
@@ -121,9 +130,11 @@ class Image(object):
 
     def equalize_gray_scale_histogram(self):
         equalize_gray_scale_histogram(self._image_arr)
+        self.histogram_data = gray_scale_image_histogram(self._image_arr)
 
     def stretch_gray_scale_histogram(self):
         stretch_gray_scale_histogram(self._image_arr)
+        self.histogram_data = gray_scale_image_histogram(self._image_arr)
 
     def change_brightness(self, factor):
         for y in range(self.height):
@@ -143,7 +154,7 @@ class Image(object):
         self.apply_filter(SharpeningFilter)
 
     def denoise(self):
-        self.apply_filter(GaussianFilter)
+        self.apply_filter(AverageFilter)
 
     @classmethod
     def new(cls, size):

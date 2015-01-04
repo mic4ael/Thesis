@@ -46,7 +46,7 @@ def median_filter_test():
 def sharpening_filter_test():
     file = 'images/lena.jpg'
     im = image_read_from_file(file)
-    im.apply_filter(SharpeningFilter)
+    im.sharpen()
     im.save('images/m_lena_filtered_sharpened.jpg')
 
 

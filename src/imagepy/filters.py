@@ -60,10 +60,10 @@ class AverageFilter(Filter):
 
 
 class GaussianFilter(Filter):
-    divisor = 16
-    mask = [[1, 2, 1],
-            [2, 4, 2],
-            [1, 2, 1]]
+    divisor = 52
+    mask = [[1, 4, 1],
+            [4, 32, 4],
+            [1, 4, 1]]
 
 
 class SquareFilter(Filter):

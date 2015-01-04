@@ -188,10 +188,9 @@ def image_histogram(image):
     ret = {key: {i: 0 for i in range(256)} for key in 'rgb'}
     for y in range(height):
         for x in range(width):
-            pixel = image[y, x]
-            ret['r'][pixel[0]] += 1
-            ret['g'][pixel[1]] += 1
-            ret['b'][pixel[2]] += 1
+            ret['r'][image[y, x, 0]] += 1
+            ret['g'][image[y, x, 1]] += 1
+            ret['b'][image[y, x, 2]] += 1
 
     return ret
 
@@ -236,8 +235,7 @@ def equalize_gray_scale_histogram(image):
 
     for y in range(height):
         for x in range(width):
-            pixel = image[y, x]
-            image[y, x] = [values[pixel[0]]['cdf_scaled'] for _ in range(3)]
+            image[y, x] = [values[image[y, x, 0]]['cdf_scaled'] for _ in range(3)]
 
 
 def stretch_gray_scale_histogram(image):
@@ -252,7 +250,7 @@ def stretch_gray_scale_histogram(image):
 
     for y in range(height):
         for x in range(width):
-            new_val = ((image[y][x][0] - min_intensity) / (max_intensity - min_intensity)) * 255
+            new_val = assert_pixel_value(((image[y, x, 0] - min_intensity) / (max_intensity - min_intensity)) * 255)
             image[y, x] = [new_val, new_val, new_val]
 
 
