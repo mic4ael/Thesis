@@ -235,7 +235,7 @@ def equalize_gray_scale_histogram(image):
 
     for y in range(height):
         for x in range(width):
-            image[y, x] = [values[image[y, x, 0]]['cdf_scaled'] for _ in range(3)]
+            image[y, x] = [values[image[y, x, 0]]['cdf_scaled']] * 3
 
 
 def stretch_gray_scale_histogram(image):
@@ -300,8 +300,7 @@ def local_adaptive_thresholding(image, block_size):
             sub_image = image[np.ix_(list(range(y - t, y + t + 1)), list(range(x - t, x + t + 1)))]
             histogram = gray_scale_image_histogram(sub_image)
             d = list({key: value for key, value in histogram.items() if value != 0}.keys())
-            l_threshold = median(d)
-            new_pixel_val = 255 if image[y, x, 0] >= l_threshold else 0
+            new_pixel_val = 255 if image[y, x, 0] >= median(d) else 0
             image[y, x] = [new_pixel_val, new_pixel_val, new_pixel_val]
 
 
