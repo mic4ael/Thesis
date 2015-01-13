@@ -106,8 +106,11 @@ class Image(object):
     def gaussian_noise(self, mean=6, variance=36):
         self._image_arr = add_gaussian_noise(self._image_arr, mean, variance)
 
-    def salt_and_pepper_noise(self, min_pixel_value=0, max_pixel_value=255):
-        salt_and_pepper_noise(self._image_arr, min_pixel_value, max_pixel_value)
+    def salt_and_pepper_noise(self, f_prob, s_prob, min_pixel_value=0, max_pixel_value=255):
+        if f_prob + s_prob > 1:
+            raise Exception('Too big values for probabilities')
+
+        salt_and_pepper_noise(self._image_arr, f_prob, min_pixel_value, s_prob, max_pixel_value)
 
     def point_operation(self, func, convert_to_greyscale=True):
         if convert_to_greyscale:
