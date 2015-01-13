@@ -68,25 +68,25 @@ def thumbnail_wrong_argument_too_long_test():
     image.thumbnail((1, 2, 3))
 
 
+def horizontal_reflection_test():
+    file_name = 'images/lena.jpg'
+    image = image_read_from_file(file_name)
+    image.horizontal_reflection()
+    image.save('images/m_lena_horziontal_reflection.jpg')
+    image = image_read_from_array(np.ones((1, 3, 3), dtype=ndarray))
+    image.pixels[0][0] = [1, 2, 3]
+    image.horizontal_reflection()
+    assert(image.pixels.tolist() == [[[1, 1, 1], [1, 1, 1], [1, 2, 3]]])
+
+
 def vertical_reflection_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
     image.vertical_reflection()
     image.save('images/m_lena_vertical_reflection.jpg')
-    image = image_read_from_array(np.ones((1, 3, 3), dtype=ndarray))
-    image.pixels[0][0] = [1, 2, 3]
-    image.vertical_reflection()
-    assert(image.pixels.tolist() == [[[1, 1, 1], [1, 1, 1], [1, 2, 3]]])
-
-
-def horizontal_reflection_test():
-    file_name = 'images/lena.jpg'
-    image = image_read_from_file(file_name)
-    image.horizontal_reflection()
-    image.save('images/m_lena_horizontal_reflection.jpg')
     image = image_read_from_array(np.ones((2, 3, 3), dtype=ndarray))
     image.pixels[0][:] = [[1, 2, 3]]
-    image.horizontal_reflection()
+    image.vertical_reflection()
     assert(image.pixels.tolist() == [[[1, 1, 1], [1, 1, 1], [1, 1, 1]], [[1, 2, 3], [1, 2, 3], [1, 2, 3]]])
 
 

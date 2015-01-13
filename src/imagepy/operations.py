@@ -107,7 +107,7 @@ def median(arg):
     raise WrongArgumentType('Argument must be tuple, list or set')
 
 
-def vertical_reflection(image):
+def horizontal_reflection(image):
     width, height = get_image_size(image)
     new_image = np.zeros((height, width, 3), dtype=image.dtype)
     for y in range(height):
@@ -117,7 +117,7 @@ def vertical_reflection(image):
     return new_image
 
 
-def horizontal_reflection(image):
+def vertical_reflection(image):
     width, height = get_image_size(image)
     new_image = np.zeros((height, width, 3), dtype=image.dtype)
     for y in range(height):
