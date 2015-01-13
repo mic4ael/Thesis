@@ -247,6 +247,8 @@ def stretch_gray_scale_histogram(image):
         sorted(gray_scale_histogram.items(), key=operator.itemgetter(0)))
     )
     min_intensity, max_intensity = sorted_grayscale[0][0], sorted_grayscale[-1][0]
+    if max_intensity == 255:
+        max_intensity = 254
 
     for y in range(height):
         for x in range(width):

@@ -60,8 +60,7 @@ class Image(object):
         self._image_arr = filter_cls.apply_filter(self._image_arr)
 
     def save(self, file_path=None):
-        file_path_to_save = file_path or self._file_path
-        imsave(file_path_to_save, self._image_arr)
+        imsave(file_path or self._file_path, self._image_arr)
 
     def horizontal_reflection(self):
         self._image_arr = horizontal_reflection(self._image_arr)
@@ -116,8 +115,8 @@ class Image(object):
 
         for y in range(self.height):
             for x in range(self.width):
-                pixel = self._image_arr[y][x]
-                self._image_arr[y][x] = [assert_pixel_value(func(i)) for i in pixel]
+                pixel = self._image_arr[y, x]
+                self._image_arr[y, x] = [assert_pixel_value(func(i)) for i in pixel]
 
     def threshold(self, threshold):
         image_thresholding(self._image_arr, threshold)
@@ -139,7 +138,7 @@ class Image(object):
     def change_brightness(self, factor):
         for y in range(self.height):
             for x in range(self.width):
-                pixel = self._image_arr[y][x]
+                pixel = self._image_arr[y, x]
                 self._image_arr[y][x] = [assert_pixel_value(el + factor) for el in pixel]
 
     def adjust_contrast(self, contrast):
