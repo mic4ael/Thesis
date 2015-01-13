@@ -103,7 +103,7 @@ class Image(object):
     def gray_scale(self):
         image_gray_scale(self._image_arr)
 
-    def gaussian_noise(self, mean=6, variance=36):
+    def gaussian_noise(self, mean=0, variance=20):
         self._image_arr = add_gaussian_noise(self._image_arr, mean, variance)
 
     def salt_and_pepper_noise(self, f_prob, s_prob, min_pixel_value=0, max_pixel_value=255):
