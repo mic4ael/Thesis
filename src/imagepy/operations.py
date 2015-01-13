@@ -60,8 +60,8 @@ def rotate_image(image, angle):
     rotated_image = np.zeros((width, height, 3), dtype=image.dtype)
     for y in range(height):
         for x in range(width):
-            dest_x = validate_size((x - cent_x) * math.cos(angle) - (y - cent_y) * math.sin(angle) + cent_y, height)
-            dest_y = validate_size((x - cent_x) * math.sin(angle) + (y - cent_y) * math.cos(angle) + cent_x, width)
+            dest_x = validate_size((x - cent_x) * math.cos(angle) - (y - cent_y) * math.sin(angle) + cent_x, height)
+            dest_y = validate_size((x - cent_x) * math.sin(angle) + (y - cent_y) * math.cos(angle) + cent_y, width)
             rotated_image[dest_y, dest_x] = image[y, x]
 
     return rotated_image
