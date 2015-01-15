@@ -112,10 +112,7 @@ class Image(object):
 
         salt_and_pepper_noise(self._image_arr, f_prob, min_pixel_value, s_prob, max_pixel_value)
 
-    def point_operation(self, func, convert_to_greyscale=True):
-        if convert_to_greyscale:
-            image_gray_scale(self._image_arr)
-
+    def point_operation(self, func):
         for y in range(self.height):
             for x in range(self.width):
                 pixel = self._image_arr[y, x]
