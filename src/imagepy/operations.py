@@ -169,7 +169,6 @@ def add_gaussian_noise(image, mean, variance):
 
 
 def salt_and_pepper_noise(image, f_prob, min_p_val, s_prob, max_p_val):
-    image_gray_scale(image)
     width, height = get_image_size(image)
     for y in range(height):
         for x in range(width):
