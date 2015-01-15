@@ -157,11 +157,9 @@ class Image(object):
 
     @classmethod
     def new(cls, size):
-        def check_arguments(f_args):
-            if any([True for arg in f_args if arg <= 0]):
-                raise WrongArgumentType('One of provided arguments is <= 0!')
+        if any([True for arg in size if arg <= 0]):
+            raise WrongArgumentType('One of provided arguments is <= 0!')
 
-        check_arguments(size)
         img = zeros(size[::-1] + (3, ))
         return Image(file_array=img)
 

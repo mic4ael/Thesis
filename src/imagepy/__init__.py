@@ -1,5 +1,6 @@
 from .core import Image
 from .exceptions import FileNotFoundException
+from .filters import *
 
 from os.path import exists
 
@@ -16,3 +17,5 @@ def image_read_from_array(image_array):
 
 
 __all__ = ['Image', 'image_read_from_array', 'image_read_from_file']
+for filter_class in list(filter(lambda x: str(x).endswith('Filter'), dir())):
+	__all__.append(filter_class)
