@@ -113,10 +113,20 @@ class Image(object):
         salt_and_pepper_noise(self._image_arr, f_prob, min_pixel_value, s_prob, max_pixel_value)
 
     def point_operation(self, func):
+        lut = {}
         for y in range(self.height):
             for x in range(self.width):
                 pixel = self._image_arr[y, x]
-                self._image_arr[y, x] = [assert_pixel_value(func(i)) for i in pixel]
+                new_pixel = []
+                for attr in pixel:
+                    if attr in lut.keys():
+                        new_pixel.append(lut[attr])
+                    else:
+                        pixel_value = assert_pixel_value(func(attr))
+                        new_pixel.append(pixel_value)
+                        lut[attr] = pixel_value
+
+                self._image_arr[y, x] = new_pixel
 
     def threshold(self, threshold):
         image_thresholding(self._image_arr, threshold)
@@ -136,18 +146,12 @@ class Image(object):
         self.histogram_data = gray_scale_image_histogram(self._image_arr)
 
     def change_brightness(self, factor):
-        for y in range(self.height):
-            for x in range(self.width):
-                pixel = self._image_arr[y, x]
-                self._image_arr[y][x] = [assert_pixel_value(el + factor) for el in pixel]
+        self.point_operation(lambda x: x + factor)
 
     def adjust_contrast(self, contrast):
         contrast_factor = (259 * (259 + contrast)) / (259 * (259 - contrast))
-        f = lambda arg: contrast_factor * (arg - 128) + 128
-        for y in range(self.height):
-            for x in range(self.width):
-                pixel = self._image_arr[y][x]
-                self._image_arr[y][x] = [assert_pixel_value(f(el)) for el in pixel]
+        adjust_contrast_func = lambda arg: contrast_factor * (arg - 128) + 128
+        self.point_operation(adjust_contrast_func)
 
     def sharpen(self):
         self.apply_filter(SharpeningFilter)

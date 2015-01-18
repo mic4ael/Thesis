@@ -140,10 +140,20 @@ def rgb_split(image):
 
 
 def invert_image(image):
+    lut = {}
     width, height = get_image_size(image)
     for y in range(height):
         for x in range(width):
-            image[y, x] = list(map(lambda arg: 255 - arg, image[y, x]))
+            new_pixel = []
+            for attr in image[y, x]:
+                if attr in lut.keys():
+                    new_pixel.append(lut[attr])
+                else:
+                    new_val = assert_pixel_value(255 - attr)
+                    new_pixel.append(new_val)
+                    lut[attr] = new_val
+
+            image[y, x] = new_pixel
 
 
 def image_gray_scale(image):
