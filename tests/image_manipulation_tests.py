@@ -3,11 +3,14 @@ from imagepy.exceptions import WrongArgumentType
 
 from nose.tools import raises
 
+from tests import profile
+
 from scipy import ndarray
 
 import numpy as np
 
 
+@profile
 def decrease_size_test():
     file_name = 'images/sunflower.tiff'
     image = image_read_from_file(file_name)
@@ -19,6 +22,7 @@ def decrease_size_test():
     assert(image.size == (50, 90))
 
 
+@profile
 def increase_size_test():
     file_name = 'images/sunflower.tiff'
     image = image_read_from_file(file_name)
@@ -30,6 +34,7 @@ def increase_size_test():
     assert(image.size == (250, 350))
 
 
+@profile
 def image_rotate_test():
     angles = [-180, -90, -45, 0, 45, 90, 180, 360]
     for angle in angles:
@@ -39,6 +44,7 @@ def image_rotate_test():
         image.save('images/m_sunflower_rotated_{angle}.tiff'.format(angle=angle))
 
 
+@profile
 def thumbnail_test():
     file_name = 'images/sunflower.tiff'
     image = image_read_from_file(file_name)
@@ -68,6 +74,7 @@ def thumbnail_wrong_argument_too_long_test():
     image.thumbnail((1, 2, 3))
 
 
+@profile
 def horizontal_reflection_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -79,6 +86,7 @@ def horizontal_reflection_test():
     assert(image.pixels.tolist() == [[[1, 1, 1], [1, 1, 1], [1, 2, 3]]])
 
 
+@profile
 def vertical_reflection_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -90,6 +98,7 @@ def vertical_reflection_test():
     assert(image.pixels.tolist() == [[[1, 1, 1], [1, 1, 1], [1, 1, 1]], [[1, 2, 3], [1, 2, 3], [1, 2, 3]]])
 
 
+@profile
 def rgb_split_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -105,6 +114,7 @@ def rgb_split_test():
     assert(b.tolist() == [[[0, 0, 2], [0, 0, 7]]])
 
 
+@profile
 def invert_image_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -116,6 +126,7 @@ def invert_image_test():
     assert(image.pixels.tolist() == [[[55, 155, 132], [255, 254, 251]]])
 
 
+@profile
 def gray_scale_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -127,6 +138,7 @@ def gray_scale_test():
     assert(image.pixels.tolist() == [[[20, 20, 20], [4, 4, 4]]])
 
 
+@profile
 def point_operation_test():
     from math import log10
     file_name = 'images/lena.jpg'
@@ -135,6 +147,7 @@ def point_operation_test():
     image.save('images/m_lena_log_point.jpg')
 
 
+@profile
 def threshold_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -146,6 +159,7 @@ def threshold_test():
     assert(image.pixels.tolist() == [[[255, 255, 255], [0, 0, 0]]])
 
 
+@profile
 def local_thresholding_test():
     file_name = 'images/adaptive_threshold_test.gif'
     image = image_read_from_file(file_name)
@@ -153,6 +167,7 @@ def local_thresholding_test():
     image.save('images/m_lena_local_threshold.gif')
 
 
+@profile
 def otsu_thresholding_test():
     file_name = 'images/otsu_test.jpg'
     image = image_read_from_file(file_name)
@@ -160,6 +175,7 @@ def otsu_thresholding_test():
     image.save('images/m_otsu_threshold.jpg')
 
 
+@profile
 def gaussian_noise_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -167,6 +183,7 @@ def gaussian_noise_test():
     image.save('images/m_lena_gaussian_noise.jpg')
 
 
+@profile
 def salt_and_pepper_noise_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -174,6 +191,7 @@ def salt_and_pepper_noise_test():
     image.save('images/m_lena_salt_and_pepper_noise.jpg')
 
 
+@profile
 def image_histogram_test():
     file_name = 'images/lena.jpg'
     image = image_read_from_file(file_name)
@@ -181,6 +199,7 @@ def image_histogram_test():
     image.save_histogram_to_file('images/m_lena_histogram.png')
 
 
+@profile
 def histogram_equalization_test():
     file_name = 'images/unequalized.jpeg'
     image = image_read_from_file(file_name)
@@ -191,6 +210,7 @@ def histogram_equalization_test():
     image.save_histogram_to_file('images/m_equalized_histogram.jpg')
 
 
+@profile
 def histogram_stretching_test():
     file_name = 'images/histogram_stretching.gif'
     image = image_read_from_file(file_name)
@@ -201,6 +221,7 @@ def histogram_stretching_test():
     image.save_histogram_to_file('images/m_histogram_stretched.jpg')
 
 
+@profile
 def brightness_change_test():
     test_arr = np.zeros((1, 3, 3), dtype=ndarray)
     result_arr = [[[10, 10, 10], [10, 10, 10], [10, 10, 10]]]
@@ -219,6 +240,7 @@ def brightness_change_test():
     image.save('images/m_forest_darkenened.bmp')
 
 
+@profile
 def adjusting_contrast_test():
     image = image_read_from_file('images/lena.jpg')
     image.adjust_contrast(-128)
@@ -228,6 +250,7 @@ def adjusting_contrast_test():
     image.save('images/m_lena_increased_contrast.jpg')
 
 
+@profile
 def image_translation_test():
     image = image_read_from_file('images/lena.jpg')
     image.translate(100, 100)
