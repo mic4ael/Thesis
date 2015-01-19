@@ -1,4 +1,4 @@
-from imagepy import image_read_from_file, image_read_from_array, Image
+from imagepy import from_file, from_array, Image
 from imagepy.exceptions import FileNotFoundException, WrongArgumentType
 from imagepy.operations import generate_copy_filename, median
 
@@ -21,14 +21,14 @@ def file_name_copy_test():
 @profile
 def create_image_object_from_file_test():
     file_name = 'images/lena.jpg'
-    image = image_read_from_file(file_name)
+    image = from_file(file_name)
     assert(image is not None)
 
 
 @profile
 def create_image_object_from_array_test():
     img = ndarray((10, 10, 3))
-    img = image_read_from_array(img)
+    img = from_array(img)
     assert(img is not None)
 
 
@@ -36,31 +36,31 @@ def create_image_object_from_array_test():
 @raises(WrongArgumentType)
 def create_image_object_from_array_with_exception_test():
     img = ndarray((10, 10, 2))
-    image_read_from_array(img)
+    from_array(img)
 
 
 @profile
 @raises(WrongArgumentType)
 def create_image_from_array_with_exception_test():
     img = ndarray((10, 10))
-    image_read_from_array(img)
+    from_array(img)
 
 
 @profile
 @raises(FileNotFoundException)
 def create_image_object_exception_test():
     file_name = 'wrong_filename'
-    image_read_from_file(file_name)
+    from_file(file_name)
 
 
 @profile
 def image_size_test():
     file_name = 'images/sunflower.tiff'
-    result = image_read_from_file(file_name)
+    result = from_file(file_name)
     assert(result.size == (300, 300))
     assert(result.width == 300)
     assert(result.height == 300)
-    image = image_read_from_array(np.zeros((101, 102, 3), dtype=ndarray))
+    image = from_array(np.zeros((101, 102, 3), dtype=ndarray))
     assert(image.size == (102, 101))
     assert(image.width == 102)
     assert(image.height == 101)
