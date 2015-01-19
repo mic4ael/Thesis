@@ -7,8 +7,8 @@ setup(
     test_suite='tests',
     package_dir={'': 'src'},
     install_requires=[
-        'nose', 
-        'mock', 
+        'nose',
+        'mock',
         'Pillow',
         'scipy',
         'matplotlib',

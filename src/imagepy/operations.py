@@ -163,13 +163,13 @@ def image_gray_scale(image):
             image[y, x] = [sum(image[y, x]) // 3] * 3
 
 
-def image_thresholding(image, threshold):
+def image_thresholding(image, threshold, min_v=0, max_v=255):
     image_gray_scale(image)
     width, height = get_image_size(image)
     for y in range(height):
         for x in range(width):
             pixel = image[y, x]
-            new_val = 255 if pixel[0] >= threshold else 0
+            new_val = max_v if pixel[0] >= threshold else min_v
             image[y, x] = [new_val, new_val, new_val]
 
 

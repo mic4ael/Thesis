@@ -72,7 +72,7 @@ class Image(object):
         if x < 0 or x >= self.width or y < 0 or y >= self.height:
             raise Exception
 
-        return self._image_arr[y][x]
+        return self._image_arr[y, x]
 
     def histogram(self):
         self.histogram_data = image_histogram(self._image_arr)
