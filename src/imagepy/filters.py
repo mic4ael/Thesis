@@ -24,21 +24,21 @@ class Filter(object):
 
             for y in range(len(cls.mask), height - len(cls.mask)):
                 for x in range(len(cls.mask[0]), width - len(cls.mask[0])):
-                    neighbours = cls._get_adjacent_pixels_arr(image, x, y)
-                    result[y, x] = cls._get_dest_rgb(neighbours)
+                    neighbours = cls._get_adjacent_pixels(image, x, y)
+                    result[y, x] = cls._get_result_pixel(neighbours)
 
             return result
 
         raise WrongArgumentType('Argument must be of image type')
 
     @classmethod
-    def _get_adjacent_pixels_arr(cls, image, x, y):
+    def _get_adjacent_pixels(cls, image, x, y):
         mask_width, mask_height = len(cls.mask[0]), len(cls.mask)
         x0, y0 = (x - (mask_width - 1) // 2), (y - (mask_height - 1) // 2)
         ret = None
         for i in range(mask_height):
             neighbours = image[y0 + i][x0:x0 + mask_width]
-            if ret is not None:
+            if ret:
                 ret = np.concatenate((ret, neighbours))
             else:
                 ret = neighbours
@@ -46,7 +46,7 @@ class Filter(object):
         return ret
 
     @classmethod
-    def _get_dest_rgb(cls, image_arr):
+    def _get_result_pixel(cls, image_arr):
         mask = list(chain.from_iterable(cls.mask))
         sum_f = lambda n: sum([val[n] * mask[index] for index, val in enumerate(image_arr)])
         return [assert_pixel_value(sum_f(index) // cls.divisor) for index in range(3)]
@@ -84,19 +84,19 @@ class SharpeningFilter(Filter):
 
 class MedianFilter(Filter):
     @classmethod
-    def _get_dest_rgb(cls, neighbours):
+    def _get_result_pixel(cls, neighbours):
         return tuple([median(i) for i in list(zip(*neighbours))])
 
 
 class MaxFilter(Filter):
     @classmethod
-    def _get_dest_rgb(cls, neighbours):
+    def _get_result_pixel(cls, neighbours):
         return tuple([max(i) for i in list(zip(*neighbours))])
 
 
 class MinFilter(Filter):
     @classmethod
-    def _get_dest_rgb(cls, neighbours):
+    def _get_result_pixel(cls, neighbours):
         return tuple([min(i) for i in list(zip(*neighbours))])
 
 

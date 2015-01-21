@@ -27,14 +27,14 @@ class Image(object):
             self._file_path = file_path
             self._image_arr = ndimage.imread(file_path, mode='RGB')
 
-        if file_array is not None:
+        if file_array:
             if check_is_image(file_array):
                 self._image_arr = file_array
             else:
                 raise WrongArgumentType('File array must be of ndarray type')
 
         # ndimage.shape returns tuple where first element is height, then width
-        if self._image_arr is not None:
+        if self._image_arr:
             self.width, self.height = get_image_size(self._image_arr)
 
     def resize(self, size):
@@ -72,7 +72,7 @@ class Image(object):
         if x < 0 or x >= self.width or y < 0 or y >= self.height:
             raise Exception
 
-        return self._image_arr[y][x]
+        return self._image_arr[y, x]
 
     def histogram(self):
         self.histogram_data = image_histogram(self._image_arr)
