@@ -38,7 +38,7 @@ class Filter(object):
         ret = None
         for i in range(mask_height):
             neighbours = image[y0 + i][x0:x0 + mask_width]
-            if ret:
+            if ret is not None:
                 ret = np.concatenate((ret, neighbours))
             else:
                 ret = neighbours
