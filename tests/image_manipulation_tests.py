@@ -130,11 +130,11 @@ def invert_image_test():
 def gray_scale_test():
     file_name = 'images/lena.jpg'
     image = from_file(file_name)
-    image.gray_scale()
+    image.convert_to_gray_scale()
     image.save('images/m_lena_gray_scale.jpg')
     image = from_array(np.ones((1, 2, 3), dtype=ndarray))
     image.pixels[0][:] = [[11, 20, 30], [5, 4, 3]]
-    image.gray_scale()
+    image.convert_to_gray_scale()
     assert(image.pixels.tolist() == [[[20, 20, 20], [4, 4, 4]]])
 
 

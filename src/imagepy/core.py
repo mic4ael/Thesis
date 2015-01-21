@@ -100,7 +100,7 @@ class Image(object):
     def invert(self):
         invert_image(self._image_arr)
 
-    def gray_scale(self):
+    def convert_to_gray_scale(self):
         image_gray_scale(self._image_arr)
 
     def gaussian_noise(self, mean=0, variance=20):
