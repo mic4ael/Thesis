@@ -60,8 +60,10 @@ def rotate_image(image, angle):
     rotated_image = np.zeros((width, height, 3), dtype=image.dtype)
     for y in range(height):
         for x in range(width):
-            dest_x = validate_size((x - cent_x) * math.cos(angle) - (y - cent_y) * math.sin(angle) + cent_x, height)
-            dest_y = validate_size((x - cent_x) * math.sin(angle) + (y - cent_y) * math.cos(angle) + cent_y, width)
+            dest_x = validate_size((x - cent_x) * math.cos(angle) - (y - cent_y) * \
+                                    math.sin(angle) + cent_x, height)
+            dest_y = validate_size((x - cent_x) * math.sin(angle) + (y - cent_y) * \
+                                    math.cos(angle) + cent_y, width)
             rotated_image[dest_y, dest_x] = image[y, x]
 
     return rotated_image
@@ -256,9 +258,17 @@ def stretch_gray_scale_histogram(image):
     if max_intensity == 255:
         max_intensity = 254
 
+    lut = {}
     for y in range(height):
         for x in range(width):
-            new_val = assert_pixel_value(((image[y, x, 0] - min_intensity) / (max_intensity - min_intensity)) * 255)
+            pixel_val = image[y, x, 0]
+            if pixel_val in lut.keys():
+                new_val = lut[pixel_val]
+            else:
+                new_val = assert_pixel_value(((image[y, x, 0] - min_intensity) /
+                                         (max_intensity - min_intensity)) * 255)
+                lut[pixel_val] = new_val
+
             image[y, x] = [new_val, new_val, new_val]
 
 
