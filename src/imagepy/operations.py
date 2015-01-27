@@ -162,7 +162,8 @@ def image_gray_scale(image):
     width, height = get_image_size(image)
     for y in range(height):
         for x in range(width):
-            image[y, x] = [sum(image[y, x]) // 3] * 3
+            r, g, b = image[y, x]
+            image[y, x] = [math.floor(r * 0.299 + 0.587 * g + 0.114 * b)] * 3
 
 
 def image_thresholding(image, threshold, min_v=0, max_v=255):
@@ -208,7 +209,7 @@ def gray_scale_image_histogram(image):
     ret = {index: 0 for index in range(256)}
     for y in range(height):
         for x in range(width):
-            g_s = sum(image[y, x]) // 3
+            g_s = assert_pixel_value(math.floor(r * 0.299 + 0.587 * g + 0.114 * b))
             ret[g_s] += 1
 
     return ret

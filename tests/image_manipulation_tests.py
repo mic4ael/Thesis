@@ -135,7 +135,7 @@ def gray_scale_test():
     image = from_array(np.ones((1, 2, 3), dtype=ndarray))
     image.pixels[0][:] = [[11, 20, 30], [5, 4, 3]]
     image.convert_to_gray_scale()
-    assert(image.pixels.tolist() == [[[20, 20, 20], [4, 4, 4]]])
+    assert(image.pixels.tolist() == [[[18, 18, 18], [4, 4, 4]]])
 
 
 @profile
