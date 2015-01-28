@@ -75,6 +75,15 @@ class SquareFilter(Filter):
             [1, 1, 1, 1, 1]]
 
 
+class CircularFilter(Filter):
+    divisor = 21
+    mask = [[0, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 0]]
+
+
 class SharpeningFilter(Filter):
     divisor = 3
     mask = [[0, -2, 0],

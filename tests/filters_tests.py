@@ -2,7 +2,7 @@ __author__ = 'mic4ael'
 
 from imagepy import from_file
 from imagepy.filters import GaussianFilter, AverageFilter,\
-    SquareFilter, MinFilter, MaxFilter, MedianFilter, SharpeningFilter
+    SquareFilter, MinFilter, MaxFilter, MedianFilter, SharpeningFilter, CircularFilter
 
 from tests import profile
 
@@ -13,6 +13,14 @@ def average_filter_test():
     im = from_file(file)
     im.apply_filter(AverageFilter)
     im.save('images/m_lena_filtered_average.jpg')
+
+
+@profile
+def circular_filter_test():
+    file = 'images/lena.jpg'
+    im = from_file(file)
+    im.apply_filter(CircularFilter)
+    im.save('images/m_lena_filtered_circular.jpg')
 
 
 @profile
