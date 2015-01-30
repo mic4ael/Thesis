@@ -14,11 +14,14 @@ from .operations import nearest_neighbours_scale, rotate_image, \
 
 from .filters import SharpeningFilter, AverageFilter
 
-from .exceptions import WrongArgumentType
+from .exceptions import WrongArgumentType, InitializationException, CoordinatesOutOfRange
 
 
 class Image(object):
     def __init__(self, file_path=None, file_array=None):
+        if file_path is None and file_array is None:
+            raise InitializationException('Image can\'t be initialized')
+
         self._file_path = None
         self._image_arr = None
         self.histogram_data = {}
@@ -70,9 +73,9 @@ class Image(object):
 
     def get_pixel_at(self, x, y):
         if x < 0 or x >= self.width or y < 0 or y >= self.height:
-            raise Exception
+            raise CoordinatesOutOfRange
 
-        return self._image_arr[y, x]
+        return self._image_arr[y - 1, x - 1]
 
     def histogram(self):
         self.histogram_data = image_histogram(self._image_arr)
@@ -137,11 +140,11 @@ class Image(object):
     def local_adaptive_thresholding(self, block_size):
         local_adaptive_thresholding(self._image_arr, block_size)
 
-    def equalize_gray_scale_histogram(self):
+    def equalize_histogram(self):
         equalize_gray_scale_histogram(self._image_arr)
         self.histogram_data = gray_scale_image_histogram(self._image_arr)
 
-    def stretch_gray_scale_histogram(self):
+    def stretch_histogram(self):
         stretch_gray_scale_histogram(self._image_arr)
         self.histogram_data = gray_scale_image_histogram(self._image_arr)
 

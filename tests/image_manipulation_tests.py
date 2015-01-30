@@ -205,7 +205,7 @@ def histogram_equalization_test():
     image = from_file(file_name)
     image.gray_scale_histogram()
     image.save_histogram_to_file('images/m_old_histogram_before_equalizing.jpg')
-    image.equalize_gray_scale_histogram()
+    image.equalize_histogram()
     image.save('images/m_equalized.jpeg')
     image.save_histogram_to_file('images/m_equalized_histogram.jpg')
 
@@ -216,7 +216,7 @@ def histogram_stretching_test():
     image = from_file(file_name)
     image.gray_scale_histogram()
     image.save_histogram_to_file('images/m_old_histogram_before_stretching.jpg')
-    image.stretch_gray_scale_histogram()
+    image.stretch_histogram()
     image.save('images/m_histogram_stretching.gif')
     image.save_histogram_to_file('images/m_histogram_stretched.jpg')
 
