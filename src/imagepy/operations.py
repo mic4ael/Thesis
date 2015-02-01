@@ -209,6 +209,7 @@ def gray_scale_image_histogram(image):
     ret = {index: 0 for index in range(256)}
     for y in range(height):
         for x in range(width):
+            r, g, b = image[y, x]
             g_s = assert_pixel_value(math.floor(r * 0.299 + 0.587 * g + 0.114 * b))
             ret[g_s] += 1
 
